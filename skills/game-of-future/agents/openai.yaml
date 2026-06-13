@@ -1,0 +1,4 @@
+interface:
+  display_name: "Game of Future"
+  short_description: "Run persistent multi-agent foresight games"
+  default_prompt: "Use $game-of-future to run a Game of Future session on my supplied topic."
