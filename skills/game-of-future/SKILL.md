@@ -41,6 +41,12 @@ Resolve project overrides from `game-of-future/registry/` as described in
 
 - Act as the facilitator; do not create a separate facilitator subagent.
 - Give every player a distinct persistent private session.
+- Assign every selected roster entry a unique, stable per-session player id
+  before creating player artifacts or starting player sessions. Freeze roster
+  order first, reserve `player` for the copied template paths, then generate
+  ids with the deterministic ASCII-only slug-and-suffix procedure defined in
+  `references/registries.md`. Assigned player ids must never be exactly
+  `player`.
 - Keep personality profiles independent from provider bindings.
 - Use a separate shared Markdown room for each team.
 - Use plain-text prompts, responses, registries, and artifacts.
@@ -48,6 +54,8 @@ Resolve project overrides from `game-of-future/registry/` as described in
 - Treat context reconstruction as a user-approved last resort.
 - Pause when a persistent player cannot be resumed. Never silently replace,
   remove, recreate, or impersonate a failed player.
+- Never use a profile id as the per-session artifact identity. Profile IDs must
+  not be used for artifact filenames.
 
 ## Session Setup
 
@@ -56,20 +64,38 @@ Create:
 `game-of-future/sessions/<timestamp>-<topic-slug>/`
 
 Copy every file from `assets/session-template/` while preserving its directory
-structure. Instantiate one forecast and one ballot file per player and one
-shared room per team; remove the copied `player.md` and `team.md` template
-filenames after instantiation. Replace the documented template variables as
-the game progresses. Record current phase, random choices, session handles,
-and facilitator decisions in the artifacts.
+structure. Resolve registries, select the roster, assign and record every
+unique player id in `roster.md`, then instantiate one forecast file at
+`forecasts/<player-id>.md` and one ballot file at `votes/<player-id>.md` per
+player and one shared room per team. Remove the copied
+`forecasts/player.md` and `votes/player.md` templates only after every
+per-player artifact has been instantiated under a non-reserved player id.
+Remove the copied `teams/team.md` template only after every team room has been
+instantiated under its team id. Use the same player id in artifact metadata,
+provider `$PLAYER_ID`, prompts, logs, session-handle labels, and status
+records. The provider-issued non-secret session handle remains a separate
+value, stored in `roster.md` under that player id. Replace the documented
+template variables as the game progresses. Record current phase, random
+choices, provider-issued non-secret handle values, session-handle labels, and
+facilitator decisions in the artifacts.
 
-In development mode, pause after setup and after every phase. In autonomous
-mode, continue unless a failure or genuine ambiguity requires user input.
+The setup checkpoint includes registry resolution, roster selection, unique
+player-id assignment, artifact instantiation, provider binding, starting and
+verifying one persistent session per player, and completing the shared
+briefing. The user-facing setup checkpoint spans Workflow steps 1 and 2, with
+no development-mode pause between them, and ends before step 3, the public
+cliché phase. `Stop after setup` pauses only after all of this and before the
+public cliché phase. In development mode, pause after the setup checkpoint and
+after each subsequent canonical phase. In autonomous mode, continue unless a
+failure, an explicit `stop after setup` request, or genuine ambiguity requires
+user input.
 
 ## Workflow
 
 Run these phases in order:
 
-1. Resolve registries, select a diverse roster, bind providers, and start
+1. Resolve registries, select a diverse roster, assign unique player ids,
+   instantiate per-player artifacts, bind providers, and start and verify
    persistent player sessions.
 2. Prepare the shared factual briefing.
 3. Run the sequential public cliché round with challenges.
@@ -79,9 +105,8 @@ Run these phases in order:
 6. Coordinate turn-based collaboration through each team's shared file.
 7. Publish concise team pitches and allow limited clarification.
 8. Collect two private votes per player for other teams.
-9. Tally official player votes and add separate non-binding facilitator
-   analysis.
-10. Verify artifacts and complete `report.md`.
+9. Tally official player votes, add separate non-binding facilitator analysis,
+   verify artifacts, and complete `report.md`.
 
 Follow the detailed mechanics in `references/rules.md` and the operational
 prompts and failure behavior in `references/facilitation.md`.

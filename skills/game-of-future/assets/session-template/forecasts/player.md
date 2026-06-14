@@ -1,5 +1,6 @@
 # Forecast: {{PLAYER_NAME}}
 
+- Player ID: {{PLAYER_ID}}
 - Profile: {{PROFILE_ID}}
 - Provider: {{PROVIDER_ID}}
 - Team: {{TEAM_ID}}

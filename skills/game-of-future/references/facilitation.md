@@ -7,8 +7,18 @@ only for a persistent-session failure, inaccessible required file, impossible
 roster constraint, provider incompatibility, or ambiguity that changes user
 intent.
 
-In development mode, pause after setup and after every phase. Report the phase,
-changed artifacts, validation results, and the exact next phase.
+In development mode, pause after the setup checkpoint and after each
+subsequent canonical phase. Report the phase, changed artifacts, validation
+results, and the exact next phase.
+
+The setup checkpoint includes registry resolution, roster selection, assigning
+and recording unique player ids, instantiating `forecasts/<player-id>.md` and
+`votes/<player-id>.md`, provider binding, starting and verifying one
+persistent session per player, and completing the shared briefing. `Stop after
+setup` pauses only after all of this and before the public cliché phase. The
+user-facing setup checkpoint spans canonical Phase 1 Setup and Phase 2 Shared
+Briefing, with no development-mode pause between them. Development mode pauses
+at that boundary automatically.
 
 Before starting player sessions, determine whether the requested run is
 intended to complete voting. A completable run requires at least 3 teams and
@@ -26,6 +36,9 @@ Start each player with:
 
 ```text
 You are a persistent player in a Game of Future session.
+
+Player ID:
+<assigned per-session player id>
 
 Identity:
 <complete player profile>
@@ -66,11 +79,18 @@ The facilitator replaces all placeholders with concrete values. Use the literal
 `not assigned` for the team path until teams form, then send the assigned
 absolute path before team work.
 
+Use the same player id in provider `$PLAYER_ID`, prompt metadata, logs,
+session-handle labels, and status records. Never use a profile id as the
+per-session artifact identity. The provider-issued non-secret session handle
+remains a separate value, stored in `roster.md` under the player id.
+
 ## Shared Briefing
 
 Write a compact factual baseline with dated sources. Separate facts, observed
 trends, and facilitator inference. Do not include product ideas or forecasts.
-Give every player the same briefing path.
+Give every player the same briefing path. Setup is complete only after the
+briefing exists and every player session needed for later phases has been
+started and verified.
 
 If independent research is enabled, tell players to append sources to their
 own artifact and label inference. Do not conceal unequal tool access.
@@ -137,6 +157,8 @@ Use at least one divergence round and one convergence round. Require the team
 to explain why its product fails if either retained forecast is removed.
 Preserve prior entries and append signed contributions. If a wait or status operation times out, do not advance to another editor; follow Failure Procedure.
 The facilitator replaces every placeholder with concrete absolute paths.
+Identify every teammate by player id and display name. Require every signed
+team contribution to identify its author by player id and display name.
 
 ## Presentation Prompt
 

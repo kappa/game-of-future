@@ -36,6 +36,48 @@ Use this human-readable shape:
 Profiles are provider-neutral. Do not include commands, models, credentials,
 or session handles in a player profile.
 
+Profile identifiers are reusable registry keys, not per-session artifact
+identity. Do not treat a profile id as a unique player instance.
+
+## Session Player Identity
+
+For each selected roster entry, assign a unique, stable player id for that
+session before creating per-player artifacts or starting a provider session.
+Freeze the selected roster order first. Before processing any roster entry,
+reserve `player` because `forecasts/player.md` and `votes/player.md` exist as
+copied template paths until instantiation is complete. The assigned player-id
+contract forbids the exact value `player`. Then process entries in roster
+order. For each entry:
+
+1. Read the roster display name.
+2. Scan its characters in order.
+3. Convert only ASCII `A-Z` to `a-z`.
+4. Copy ASCII `a-z` and `0-9` unchanged.
+5. Replace each maximal run of all other characters with one `-`.
+6. Trim leading and trailing `-`.
+7. Use base `player` if the result is empty.
+8. Use the base if it is unused.
+9. Otherwise choose the lowest integer `n >= 2` whose `<base>-<n>` is unused.
+10. Reserve the chosen id immediately before processing the next entry.
+
+There is no locale-specific transliteration. This procedure is deterministic
+and handles preexisting suffixed bases such as `rosa-martinez-2` without
+special cases because every reserved id blocks later reuse. An empty slug or a
+display name such as `Player` therefore allocates `player-2` or the next
+lowest unused suffix, never `player`.
+
+Record the assigned player id in `roster.md` and do not change it during the
+game. Use that player id for `forecasts/<player-id>.md`,
+`votes/<player-id>.md`, provider `$PLAYER_ID`, prompts, logs, non-secret
+session-handle labels, status records, and artifact metadata. Never use a
+profile id as the per-session artifact identity. Assigned player ids must
+never be exactly `player`. Profile IDs must not be used for artifact
+filenames.
+
+The provider-issued non-secret session handle remains a separate value. Store
+it in `roster.md` under the assigned player id rather than treating it as the
+player id or as a substitute for session-handle labels.
+
 ## Provider Entry
 
 Use this shape:
@@ -62,15 +104,16 @@ Use plain text only. Never store secrets.
 Bindings are preferences, not identity:
 
 ```markdown
-## Binding: player-identifier
+## Binding: profile-identifier
 
 - Preferred providers:
 - Forbidden providers:
 - Reason:
 ```
 
-When no binding exists, choose any enabled compatible provider that satisfies
-roster constraints.
+Reusable bindings target profile ids, never per-session player ids. When no
+binding exists, choose any enabled compatible provider that satisfies roster
+constraints.
 
 ## Roster Entry
 
@@ -95,6 +138,8 @@ personality-balanced roster even when all players use one provider.
 Use curated profiles first. Generate a temporary profile only to fill an
 unmet diversity gap. Record the complete generated profile in `roster.md` and
 do not promote it into a registry automatically.
+
+Team membership records must identify members by player id and display name.
 
 ## Compatibility Gate
 

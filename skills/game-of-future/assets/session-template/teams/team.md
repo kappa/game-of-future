@@ -2,11 +2,18 @@
 
 ## Members
 
+Add one list entry per member containing `Player ID`, `Display name`, and an
+optional profile summary.
+
 ## Assigned Forecasts
+
+List each assigned forecast with the source player id, source display name,
+and forecast path `forecasts/<player-id>.md`.
 
 ## Divergence Round
 
-Append signed contributions in facilitator-assigned turn order.
+Append signed contributions in facilitator-assigned turn order. Every signed
+contribution must identify the writer by player id and display name.
 
 ## Forecast Selection
 
@@ -17,7 +24,8 @@ Append signed contributions in facilitator-assigned turn order.
 
 ## Convergence Round
 
-Append signed contributions in facilitator-assigned turn order.
+Append signed contributions in facilitator-assigned turn order. Every signed
+contribution must identify the writer by player id and display name.
 
 ## Product
 
