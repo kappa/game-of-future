@@ -93,6 +93,7 @@ Use this shape:
 - File access:
 - Research tools:
 - Discovery control:
+- Preloaded context:
 - Turn trace:
 - Trace audit:
 - Failure signal:
@@ -106,10 +107,17 @@ Use plain text only. Never store secrets.
 or other provider control that disables automatic skill or project-instruction
 discovery for player turns. If no such control is verified, say so plainly.
 
+`Preloaded context` must disclose known provider-level system instructions,
+skills, plugins, or project instructions that may be placed in model context
+without a traced file read. Complete platform prompt provenance is not assumed
+to be available. The game enforces behavioral path isolation: preloaded context
+must not cause the player to read, write, invoke, or follow anything outside
+the facilitator prompt and its exact allowlists.
+
 `Turn trace` must name the exact per-turn artifact path, output file, log
-channel, transcript stream, or other evidence source that exposes every file,
-command, and tool access relevant to the player turn. If no such source is
-verified, say so plainly.
+channel, transcript stream, or other evidence source that exposes every
+observable file, command, and tool access relevant to the player turn. If no
+such source is verified, say so plainly.
 
 `Trace audit` must describe the exact allowlist-check procedure the facilitator
 performs before accepting a player turn. It must identify what to inspect in
@@ -169,7 +177,10 @@ Reject a provider binding unless it supports:
 - either a verified `Discovery control`, or both an exact `Turn trace` and a
   concrete `Trace audit` that checks all traced file, command, and tool
   accesses against the per-turn allowlists before the facilitator accepts the
-  turn.
+  turn;
+- a successful zero-access start and resume probe using one actual bound player,
+  with provider version, exact invocation, handle extraction, response, trace
+  completeness, and audit result recorded in `session.md`.
 
 Do not silently reconstruct context to make an incompatible provider appear
 supported.
@@ -177,3 +188,7 @@ supported.
 Do not assume native tool surfaces expose tracing. If a registry entry cannot
 name the exact verified discovery-disable control or exact auditable trace
 surface, mark that provider disabled or incompatible for player sessions.
+
+Trace auditing proves observable behavior, not the absence of hidden provider
+system context. Reject a provider when undisclosed or conflicting preloaded
+context causes the zero-access probe or any later turn to violate the guard.

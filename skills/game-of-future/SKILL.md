@@ -1,6 +1,6 @@
 ---
 name: game-of-future
-description: Use only when the user explicitly invokes $game-of-future to run an autonomous or phase-gated foresight simulation with persistent AI player sessions.
+description: Use only when the user explicitly selects or invokes the game-of-future skill for a foresight simulation with persistent AI player sessions.
 ---
 
 # Game of Future
@@ -11,9 +11,10 @@ useful forecasts.
 
 ## Invocation Contract
 
-Run only after the user explicitly invokes `$game-of-future`. Do not infer use
-from a topic, a request for multiple agents, or ordinary mentions of the game.
-Supplying a topic alone does not invoke the skill.
+Run only after the user explicitly selects this skill through the skills UI or
+invokes `$game-of-future`. Do not infer use from a topic, a request for multiple
+agents, or ordinary mentions of the game. Supplying a topic alone does not
+invoke the skill.
 
 ## Required Input
 
@@ -65,6 +66,9 @@ Resolve project overrides from `game-of-future/registry/` as described in
 - Reject any provider binding that lacks either a verified discovery-disable
   control or an exact auditable turn-trace contract as defined in
   `references/registries.md`.
+- Before starting a full roster on a provider, use its first bound player to
+  execute and record the zero-access start and resume preflight defined in
+  `references/facilitation.md`.
 - Do not introduce a custom orchestration program or encoded wire format.
 - Treat context reconstruction as a user-approved last resort.
 - Treat any off-allowlist read, including skill or repository instruction

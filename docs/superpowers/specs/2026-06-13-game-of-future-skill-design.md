@@ -18,8 +18,9 @@ future experience demonstrates that one is necessary.
 
 ## Invocation And Defaults
 
-The user starts a game only by explicitly invoking `$game-of-future`.
-Supplying a topic alone does not start the skill.
+The user starts a game only by explicitly selecting the skill through the
+skills UI or invoking `$game-of-future`. Supplying a topic alone does not start
+the skill.
 
 The user must supply:
 
@@ -63,9 +64,9 @@ The solution is one modular Codex skill with no custom runtime program.
 The skill is command-only. `agents/openai.yaml` sets
 `policy.allow_implicit_invocation: false`, so the skill is not injected from
 topic similarity or ordinary mentions. A game starts only when the user
-explicitly invokes `$game-of-future`. The player sandbox remains required
-because external provider sessions may implement instruction discovery
-independently of Codex skill invocation policy.
+explicitly selects it or invokes `$game-of-future`. The player sandbox remains
+required because external provider sessions may implement instruction
+discovery independently of Codex skill invocation policy.
 
 ### Facilitator
 
@@ -117,7 +118,8 @@ probe or retry turns, must begin with the same provider-neutral guard before
 any read or write instructions. The start prompt must literally prepend that
 exact guard block, not a paraphrase. Start verification must state the exact
 allowlists for that turn as `Read paths: none. Write paths: none. Do not read
-or write any file.`
+or write any file.` The initial player-start turn uses the same zero-access
+allowlists and grants no artifact access.
 
 Personality and backend are separate concepts. A profile such as a skeptical
 economist can be bound to Codex, Claude, Gemini, or another supported provider.
@@ -229,16 +231,29 @@ A provider is supported only when the facilitator can:
 Native Codex subagents and external commands are peers behind this conceptual
 contract. The skill does not require JSON, a custom protocol, or a wrapper
 program. Provider-specific invocation instructions live in the registry.
+The default installation enables the audited persistent Codex CLI provider;
+the native subagent entry remains disabled until its discovery or trace surface
+is verifiable.
 
 Provider guidance must require explicit `Discovery control`, `Turn trace`, and
-`Trace audit` fields in every provider entry. Preflight must reject a provider
-unless either discovery is verifiably disabled or the provider names the exact
-trace artifact or channel plus a concrete audit procedure that checks all file,
+`Trace audit` fields in every provider entry, plus disclosure of known
+`Preloaded context`. Preflight must reject a provider unless either discovery
+is verifiably disabled or the provider names the exact trace artifact or
+channel plus a concrete audit procedure that checks all observable file,
 command, and tool accesses against the per-turn allowlists before the
-facilitator accepts the turn. Do not claim native multi-agent tracing unless
-the exact current surface is verified and documented. Any off-allowlist read is
-a provider policy failure: preserve artifacts and pause. The skill must not
-claim OS isolation when players share a workspace.
+facilitator accepts the turn. Each provider must pass and record a zero-access
+start and resume probe using its first actual bound player before the remainder
+of that provider's roster starts. The preflight records provider version/help,
+exact invocation, handle extraction, responses, trace paths, trace
+completeness, and allowlist results. Do not claim native multi-agent tracing
+unless the exact current surface is verified and documented.
+
+Trace auditing establishes behavioral path isolation; it cannot prove the
+absence of hidden provider system context. Known preloaded context is disclosed,
+the exact guard remains authoritative, and a provider is rejected if that
+context causes unauthorized action. Any off-allowlist read is a provider policy
+failure: preserve artifacts and pause. The skill must not claim OS isolation
+when players share a workspace.
 
 If an external engine cannot satisfy persistence and file access cleanly, the
 skill may drop support for that engine instead of adding context-reconstruction

@@ -27,6 +27,8 @@
 - Discovery control: Unverified on the current native `multi_agent_v1` surface.
   Do not enable this provider until the exact discovery-disable control is
   verified and documented here.
+- Preloaded context: The native agent inherits platform instructions and may
+  receive skill or project context not represented as a traced file read.
 - Turn trace: Unverified on the current native `multi_agent_v1` surface. No
   exact per-turn artifact or channel is currently documented here for auditing
   every file, command, and tool access.
@@ -42,11 +44,50 @@
   auditing only after the provider exposes a verified control or auditable
   trace surface. Do not describe this as OS isolation.
 
+## Provider: codex-cli-exec
+
+- Status: enabled
+- Session model: One persistent Codex CLI thread per player.
+- Start: `codex --ask-for-approval never --sandbox workspace-write -C "$SESSION_ROOT" exec --ignore-user-config --ignore-rules --json --skip-git-repo-check -o "$RESPONSE_FILE" - < "$PROMPT_FILE" > "$LOG_FILE"`
+- Resume: `codex --ask-for-approval never --sandbox workspace-write -C "$SESSION_ROOT" exec resume --ignore-user-config --ignore-rules --json --skip-git-repo-check -o "$RESPONSE_FILE" "$SESSION_HANDLE" - < "$PROMPT_FILE" > "$LOG_FILE"`
+- Wait: The foreground command is the wait mechanism. Accept no turn until the
+  process exits, the response exists, and the trace audit passes.
+- Finish: After final reporting or an explicitly ended aborted game, run
+  `codex archive "$SESSION_HANDLE"` for each player.
+- Working directory: `$SESSION_ROOT`, the absolute session directory.
+- File access: The process has workspace access broader than the game
+  allowlists. The exact guard, per-turn paths, and trace audit enforce the game
+  boundary behaviorally.
+- Research tools: Do not pass `--search` unless the game enables independent
+  research.
+- Discovery control: `--ignore-user-config` and `--ignore-rules` reduce
+  inherited configuration and exec-policy rules, but no verified switch
+  disables every form of automatic instruction discovery. Trace audit is
+  mandatory.
+- Preloaded context: Codex platform instructions and the available-skill
+  catalog may be present without a traced read. The exact player guard remains
+  authoritative for game behavior.
+- Turn trace: Set `$LOG_FILE` to
+  `$SESSION_ROOT/logs/$PLAYER_ID-$TURN.jsonl`; stdout from `--json` is the
+  retained per-turn trace. Set `$RESPONSE_FILE` separately to
+  `$SESSION_ROOT/logs/$PLAYER_ID-$TURN.last.txt`.
+- Trace audit: Inspect every JSONL event before accepting the turn. For each
+  command execution, tool call, and file operation, resolve referenced paths
+  and compare them with that prompt's exact read and write allowlists. A
+  zero-access turn must contain no command, tool, or file-operation event.
+  Reject a missing or incomplete trace, unexpected command or tool, ambiguous
+  path, or off-allowlist access as a provider policy failure.
+- Failure signal: Missing command, nonzero status, JSONL error event, missing
+  `thread.started` id on start, missing response, incomplete trace, failed
+  resume, failed archive, or any trace-audit violation.
+- Limitations: This is behavioral prompt-and-audit isolation, not OS
+  filesystem isolation or proof of complete provider prompt provenance. Treat
+  the provider as incompatible for the run unless operational preflight passes.
+
 ## External Command Providers
 
-No external command is enabled globally without verified start and resume
-instructions. Add external engines in project
-`game-of-future/registry/providers.md`.
+The tested Codex CLI provider above is the only enabled command default. Add
+other external engines in project `game-of-future/registry/providers.md`.
 
 An external entry is supported only when it states exact commands for:
 
@@ -57,6 +98,8 @@ An external entry is supported only when it states exact commands for:
 - waiting for or reading the response and status;
 - documenting `Discovery control` with the exact discovery-disable setting,
   flag, or declared lack of support;
+- documenting `Preloaded context`, including any untraced system, skill, plugin,
+  or project instructions known to be injected;
 - suspending or closing and later resuming without losing private history, or a
   verified capacity model that keeps all required sessions available;
 - finally closing the session, or documenting a verified automatic terminal
@@ -88,6 +131,10 @@ If `Discovery control` is not verifiably disabled, `Turn trace` and
 failure: preserve artifacts and pause. If a provider offers neither a verified
 discovery-disable control nor an auditable turn trace, do not enable it for
 player sessions.
+
+Before using any external entry for a roster, execute the start-and-resume
+zero-access preflight in `references/facilitation.md`. Registry prose without a
+passing recorded probe is insufficient.
 
 ## Persistence Rule
 

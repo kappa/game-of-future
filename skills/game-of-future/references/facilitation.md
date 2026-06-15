@@ -43,6 +43,31 @@ Do not assume native Codex subagent tracing exists unless the provider entry
 states the exact verified control or trace surface. If verification is missing,
 record provider incompatibility and pause instead of starting players.
 
+For each distinct provider used by the roster, make its first bound player the
+operational preflight player:
+
+1. Record the installed provider version and the exact relevant local help or
+   verified invocation documentation in `session.md`.
+2. Start that actual player with the zero-access Player Start Prompt below.
+3. Extract and record the non-secret persistent session handle.
+4. Verify the configured response and status mechanism.
+5. Audit the start trace when tracing is required.
+6. Resume the same handle with the zero-access Start Verification Prompt.
+7. Audit the resume trace and record the exact trace paths, completeness result,
+   and allowlist result in `session.md`.
+8. Only after both turns pass may the facilitator start the provider's remaining
+   players. Reuse the preflight player's verified session for the game.
+
+If version/help inspection, command parsing, handle extraction, persistence,
+trace completeness, or either zero-access response fails, record one incident,
+preserve artifacts, and pause. A registry entry alone never proves
+compatibility.
+
+Provider traces enforce observable behavioral path isolation. They do not prove
+the absence of hidden platform system context. Disclose known preloaded context
+in the registry, keep the exact guard on every turn, and reject the provider if
+preloaded instructions cause any unauthorized action.
+
 ## Player Turn Guard
 
 Prepend this exact guard verbatim to every player-facing prompt, including
@@ -85,38 +110,20 @@ Identity:
 Topic:
 <user-supplied topic>
 
-Session root:
-<absolute session path>
-
-Allowed public read paths:
-<exact readable public paths>
-
-Private forecast path:
-<absolute forecast path>
-
-Private ballot path:
-<absolute ballot path>
-
-Assigned team path:
-<absolute team path or literal not assigned>
-
-Allowed writable paths:
-<exact writable paths for this player>
+Read paths: none.
+Write paths: none.
+Do not read or write any file.
 
 You retain your private conversation history across the game. Stay in
 character, but prioritize plausible forecasts and useful product invention
-over theatrical role-play. Read only the exact readable paths named above and
-the exact readable files named in each turn. Each turn names the allowed
-readable files and exactly one writable file; read or write no other session
-paths. Preserve existing content and append or update only the requested
-section of the writable file. Do not inspect other teams or other players'
-ballots. Wait for the facilitator's phase instruction.
+over theatrical role-play. Future turns will name their exact readable files
+and at most one writable file. Never infer access from prior turns. Do not
+inspect other teams or other players' ballots. Reply `READY <player-id>` and
+take no other action.
 ```
 
 Replace angle-bracketed fields with concrete session values before sending.
-The facilitator replaces all placeholders with concrete values. Use the literal
-`not assigned` for the team path until teams form, then send the assigned
-absolute path before team work.
+The facilitator replaces all placeholders with concrete values.
 
 Use the same player id in provider `$PLAYER_ID`, prompt metadata, logs,
 session-handle labels, and status records. Never use a profile id as the
