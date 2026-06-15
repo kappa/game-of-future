@@ -92,12 +92,28 @@ Use this shape:
 - Working directory:
 - File access:
 - Research tools:
+- Discovery control:
+- Turn trace:
+- Trace audit:
 - Failure signal:
 - Limitations:
 ```
 
 `Start` and `Resume` may describe native tool calls or exact external commands.
 Use plain text only. Never store secrets.
+
+`Discovery control` must state the exact verified flag, setting, tool option,
+or other provider control that disables automatic skill or project-instruction
+discovery for player turns. If no such control is verified, say so plainly.
+
+`Turn trace` must name the exact per-turn artifact path, output file, log
+channel, transcript stream, or other evidence source that exposes every file,
+command, and tool access relevant to the player turn. If no such source is
+verified, say so plainly.
+
+`Trace audit` must describe the exact allowlist-check procedure the facilitator
+performs before accepting a player turn. It must identify what to inspect in
+the trace and when to reject the turn as a provider policy failure.
 
 ## Binding Entry
 
@@ -149,7 +165,15 @@ Reject a provider binding unless it supports:
 - reliable resume behavior;
 - plain-text prompts and responses;
 - access to the public files and assigned team room;
-- a detectable operational failure.
+- a detectable operational failure;
+- either a verified `Discovery control`, or both an exact `Turn trace` and a
+  concrete `Trace audit` that checks all traced file, command, and tool
+  accesses against the per-turn allowlists before the facilitator accepts the
+  turn.
 
 Do not silently reconstruct context to make an incompatible provider appear
 supported.
+
+Do not assume native tool surfaces expose tracing. If a registry entry cannot
+name the exact verified discovery-disable control or exact auditable trace
+surface, mark that provider disabled or incompatible for player sessions.

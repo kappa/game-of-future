@@ -1,6 +1,6 @@
 ---
 name: game-of-future
-description: Run an autonomous or phase-gated Game of Future foresight simulation with a separate facilitator and persistent AI player sessions. Use when the user supplies a topic and wants multiple personality-driven agents, optionally across different providers, to remove clichés, create plausible forecasts, form teams, invent products from randomized forecast intersections, present them, vote, and retain complete plain-text artifacts.
+description: Use only when the user explicitly invokes $game-of-future to run an autonomous or phase-gated foresight simulation with persistent AI player sessions.
 ---
 
 # Game of Future
@@ -8,6 +8,12 @@ description: Run an autonomous or phase-gated Game of Future foresight simulatio
 Run a structured foresight game using persistent, independent player sessions.
 Optimize for surprising product concepts grounded in plausible, strategically
 useful forecasts.
+
+## Invocation Contract
+
+Run only after the user explicitly invokes `$game-of-future`. Do not infer use
+from a topic, a request for multiple agents, or ordinary mentions of the game.
+Supplying a topic alone does not invoke the skill.
 
 ## Required Input
 
@@ -56,6 +62,9 @@ Resolve project overrides from `game-of-future/registry/` as described in
   `references/facilitation.md` to every player-facing turn, including start
   verification, cliché, forecast, revision, team, presentation, clarification,
   voting, and probe or retry turns.
+- Reject any provider binding that lacks either a verified discovery-disable
+  control or an exact auditable turn-trace contract as defined in
+  `references/registries.md`.
 - Do not introduce a custom orchestration program or encoded wire format.
 - Treat context reconstruction as a user-approved last resort.
 - Treat any off-allowlist read, including skill or repository instruction
@@ -132,6 +141,6 @@ Do not mark a game complete until:
 - every team has a shared room and structured pitch;
 - products genuinely combine two assigned forecasts;
 - vote totals exclude own-team votes;
-- `errors.md` records all failures in incident blocks and updates the same block
-  with the user decision and resumption before play continues;
+- `errors.md` records one incident block per incident and updates that same
+  block with the user decision and resumption before play continues;
 - `report.md` distinguishes official votes from facilitator commentary.

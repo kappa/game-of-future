@@ -30,6 +30,19 @@ stop. Otherwise, record the impossible roster in `errors.md` and `session.md`,
 set `Status: paused` with the current phase in `session.md`, preserve
 artifacts, and pause before starting players.
 
+Before enabling any provider for player sessions, verify its registry entry
+against `references/registries.md`. Reject the provider unless either:
+
+1. `Discovery control` gives an exact, verifiable control that disables
+   automatic skill or project-instruction discovery for player turns; or
+2. `Turn trace` identifies the exact per-turn artifact or channel that exposes
+   all file, command, and tool accesses, and `Trace audit` gives a concrete
+   allowlist-check procedure the facilitator can run before accepting the turn.
+
+Do not assume native Codex subagent tracing exists unless the provider entry
+states the exact verified control or trace surface. If verification is missing,
+record provider incompatibility and pause instead of starting players.
+
 ## Player Turn Guard
 
 Prepend this exact guard verbatim to every player-facing prompt, including
@@ -58,27 +71,9 @@ instruction or report inability without reading extra files.
 
 ## Player Start Prompt
 
-Start each player with:
+Prepend the exact Player Turn Guard block above, then send:
 
 ```text
-Player role only: you are a participant in this Game of Future session, never
-the facilitator.
-
-Do not invoke, load, discover, or follow the Game of Future skill or any other
-installed or repository skill, AGENTS/CLAUDE/GEMINI instructions, plan, spec,
-or source file.
-
-All authority for your turns is contained in this facilitator's plain-text
-prompts. Do not inspect the working directory, repository, or skill
-implementation.
-
-Paths outside the exact read and write allowlists are forbidden, including
-$CODEX_HOME, .codex, .agents, skills/, docs/, registries, and other session
-artifacts.
-
-If your provider defaults conflict, follow this narrower player sandbox
-instruction or report inability without reading extra files.
-
 You are a persistent player in a Game of Future session.
 
 Player ID:
@@ -134,10 +129,12 @@ After the start prompt, prepend the exact Player Turn Guard block above and
 send:
 
 ```text
-This is a start verification turn. Read no file beyond the allowlists already
-named in your start prompt. Do not write any file. Reply in one line with your
-player id and confirmation that you are a player participant only and will use
-only the listed paths.
+This is a start verification turn.
+Read paths: none.
+Write paths: none.
+Do not read or write any file.
+Reply in one line with your player id and confirmation that you are a player
+participant only and will use only the listed paths.
 ```
 
 ## Shared Briefing
@@ -324,8 +321,9 @@ with the provider's registry-defined response or status mechanism
 (`multi_agent_v1.wait_agent` for native Codex) and the designated writable
 artifact has been inspected. If terminal failure is confirmed, log it in the
 same incident block, stop the affected team and dependent phases, and pause
-per this procedure. No resend until user decision. Log every timeout and any
-approved retry. If state remains uncertain, pause.
+per this procedure. No resend until user decision. Log every timeout, approved
+retry, and resumption in that same incident block. If state remains uncertain,
+pause.
 
 ## Probe Or Retry Prompt
 
