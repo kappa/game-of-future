@@ -87,6 +87,23 @@ Each player is a distinct persistent AI session with:
 - an obligation to respond in character without sacrificing the game's
   forecasting and product-design goals.
 
+Players are participants only, never facilitators. The complete player start
+prompt must explicitly forbid invoking, loading, discovering, or following the
+Game of Future skill, any other installed or repository skill, AGENTS.md,
+CLAUDE.md, GEMINI.md, plans, specs, source files, or workspace instructions.
+It must state that all authority for the player turn is contained in the
+facilitator's plain-text prompt, that the player must not inspect the working
+directory, repository, or skill implementation, and that paths outside the
+exact per-turn read and write allowlists are forbidden, including
+`$CODEX_HOME`, `.codex`, `.agents`, `skills/`, `docs/`, registries, and other
+session artifacts. If provider defaults conflict, the player must follow this
+narrower sandbox instruction or report inability without reading extra files.
+
+Every player-facing turn, including start verification, cliche, forecast,
+forecast revision, team-room work, presentation, clarification, voting, and
+probe or retry turns, must begin with the same provider-neutral guard before
+any read or write instructions.
+
 Personality and backend are separate concepts. A profile such as a skeptical
 economist can be bound to Codex, Claude, Gemini, or another supported provider.
 The per-session player id is separate from both the display name and the
@@ -198,6 +215,13 @@ Native Codex subagents and external commands are peers behind this conceptual
 contract. The skill does not require JSON, a custom protocol, or a wrapper
 program. Provider-specific invocation instructions live in the registry.
 
+Provider guidance must require disabling automatic skill or project-instruction
+discovery when the provider supports it. Otherwise the facilitator must place
+the explicit player sandbox guard in every prompt and audit command or tool
+logs for off-allowlist reads before accepting the turn. Any off-allowlist read
+is a provider policy failure: preserve artifacts and pause. The skill must not
+claim OS isolation when players share a workspace.
+
 If an external engine cannot satisfy persistence and file access cleanly, the
 skill may drop support for that engine instead of adding context-reconstruction
 complexity.
@@ -211,7 +235,8 @@ Each run creates a project-local directory:
 It contains:
 
 - `session.md`: topic, parameters, current phase, phase history, random choices,
-  and facilitator ledger;
+  and facilitator ledger, with stale present-tense summaries updated or marked
+  explicitly as historical when later phases change the state;
 - `roster.md`: assigned player ids, selected profiles, provider bindings,
   teams, and provider-issued non-secret session handles stored under each
   player id;
@@ -223,7 +248,9 @@ It contains:
 - `votes/<player-id>.md`: the player's private ballot and optional rationale;
 - `report.md`: vote totals, winning concepts, non-binding facilitator analysis,
   and recommended follow-up work;
-- `errors.md`: failures, retries, pauses, user decisions, and resumptions.
+- `errors.md`: failures, retries, pauses, user decisions, and resumptions,
+  recorded as appended incident blocks instead of live values in the template
+  header.
 
 The complete directory remains after every game, regardless of control mode.
 
@@ -400,7 +427,8 @@ The facilitator may make ordinary moderation judgments without pausing.
 When a persistent player session fails:
 
 1. Preserve all current artifacts.
-2. Record the failure in `errors.md`.
+2. Append one incident block to `errors.md` without mutating the template
+   header.
 3. Stop advancing the affected team and any dependent phase.
 4. Pause and ask the user how to proceed.
 
@@ -414,6 +442,14 @@ The facilitator must not silently:
 
 Context reconstruction is permitted only after the user explicitly approves it
 for that incident.
+
+For every pause condition, including session failure, inaccessible file,
+impossible roster, provider incompatibility, provider policy failure such as an
+off-allowlist read, unavailable randomness, or uncertain post-timeout state,
+the facilitator must preserve artifacts, record the pause in `session.md`,
+append a new incident block to `errors.md`, and pause. When the user responds,
+the facilitator must update `User decision` and `Resumption` inside that same
+incident block before continuing.
 
 ## Quality Goals
 
@@ -465,6 +501,11 @@ Verify:
 - private ballots with no own-team votes;
 - correct vote totals and separate facilitator commentary;
 - complete retained session artifacts;
+- player prompt sandboxing and repeated guard use across all player turns;
+- incident-block logging, including updating `User decision` and `Resumption`
+  in the same block before continuation;
+- facilitator-ledger updates that remove or relabel stale present-tense state
+  summaries;
 - pause-with-state-preserved behavior on a simulated provider failure.
 
 After the skill passes direct verification, forward-test it with isolated agents
@@ -474,8 +515,9 @@ on realistic topics. Forward tests should exercise at least:
 - a mixed-provider roster when compatible external commands are available;
 - development mode;
 - autonomous mode;
-- a provider failure during team work.
+- a provider failure during team work;
+- a provider policy failure caused by an off-allowlist read.
 
 The skill is successful when another Codex instance can follow it without
 hidden knowledge, complete a coherent game, preserve all artifacts, and pause
-safely when persistence assumptions fail.
+safely when persistence or player-sandbox assumptions fail.

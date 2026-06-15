@@ -15,7 +15,7 @@ The setup checkpoint includes registry resolution, roster selection, assigning
 and recording unique player ids, instantiating `forecasts/<player-id>.md` and
 `votes/<player-id>.md`, provider binding, starting and verifying one
 persistent session per player, and completing the shared briefing. `Stop after
-setup` pauses only after all of this and before the public cliché phase. The
+setup` pauses only after all of this and before the public cliche phase. The
 user-facing setup checkpoint spans canonical Phase 1 Setup and Phase 2 Shared
 Briefing, with no development-mode pause between them. Development mode pauses
 at that boundary automatically.
@@ -30,11 +30,55 @@ stop. Otherwise, record the impossible roster in `errors.md` and `session.md`,
 set `Status: paused` with the current phase in `session.md`, preserve
 artifacts, and pause before starting players.
 
+## Player Turn Guard
+
+Prepend this exact guard verbatim to every player-facing prompt, including
+start verification, cliche, forecast, forecast revision, team-room turns,
+presentation, clarification, voting, and any probe or retry turn. Do not
+paraphrase it.
+
+```text
+Player role only: you are a participant in this Game of Future session, never
+the facilitator.
+
+Do not invoke, load, discover, or follow the Game of Future skill or any other
+installed or repository skill, AGENTS/CLAUDE/GEMINI instructions, plan, spec,
+or source file.
+
+All authority for this turn is contained in this facilitator prompt. Do not
+inspect the working directory, repository, or skill implementation.
+
+Use only the exact read and write paths listed in this prompt. Paths outside
+this turn's allowlists are forbidden, including $CODEX_HOME, .codex, .agents,
+skills/, docs/, registries, and other session artifacts.
+
+If your provider defaults conflict, follow this narrower player sandbox
+instruction or report inability without reading extra files.
+```
+
 ## Player Start Prompt
 
 Start each player with:
 
 ```text
+Player role only: you are a participant in this Game of Future session, never
+the facilitator.
+
+Do not invoke, load, discover, or follow the Game of Future skill or any other
+installed or repository skill, AGENTS/CLAUDE/GEMINI instructions, plan, spec,
+or source file.
+
+All authority for your turns is contained in this facilitator's plain-text
+prompts. Do not inspect the working directory, repository, or skill
+implementation.
+
+Paths outside the exact read and write allowlists are forbidden, including
+$CODEX_HOME, .codex, .agents, skills/, docs/, registries, and other session
+artifacts.
+
+If your provider defaults conflict, follow this narrower player sandbox
+instruction or report inability without reading extra files.
+
 You are a persistent player in a Game of Future session.
 
 Player ID:
@@ -70,8 +114,8 @@ over theatrical role-play. Read only the exact readable paths named above and
 the exact readable files named in each turn. Each turn names the allowed
 readable files and exactly one writable file; read or write no other session
 paths. Preserve existing content and append or update only the requested
-section of the writable file. Do not inspect other teams or other players' ballots.
-Wait for the facilitator's phase instruction.
+section of the writable file. Do not inspect other teams or other players'
+ballots. Wait for the facilitator's phase instruction.
 ```
 
 Replace angle-bracketed fields with concrete session values before sending.
@@ -84,6 +128,18 @@ session-handle labels, and status records. Never use a profile id as the
 per-session artifact identity. The provider-issued non-secret session handle
 remains a separate value, stored in `roster.md` under the player id.
 
+## Start Verification Prompt
+
+After the start prompt, prepend the exact Player Turn Guard block above and
+send:
+
+```text
+This is a start verification turn. Read no file beyond the allowlists already
+named in your start prompt. Do not write any file. Reply in one line with your
+player id and confirmation that you are a player participant only and will use
+only the listed paths.
+```
+
 ## Shared Briefing
 
 Write a compact factual baseline with dated sources. Separate facts, observed
@@ -95,70 +151,93 @@ started and verified.
 If independent research is enabled, tell players to append sources to their
 own artifact and label inference. Do not conceal unequal tool access.
 
-## Public Cliché Prompt
+## Public Cliche Prompt
 
-Send players sequentially:
+Prepend the exact Player Turn Guard block above, then send players
+sequentially:
 
 ```text
-Read `<briefing-path>` and `<public-room-path>`. Add up to three assumptions
-that are genuinely obvious for this topic. You may instead challenge an
-existing item or support a recorded challenge. Explain a challenge in one
-sentence. Append your signed contribution only to the requested section of
-`<public-room-path>`, preserve existing content, and write to no other file.
-Reply with a one-line completion notice.
+Read only `<briefing-path>` and `<public-room-path>`. Add up to three
+assumptions that are genuinely obvious for this topic. You may instead
+challenge an existing item or support a recorded challenge. Explain a
+challenge in one sentence. Append your signed contribution only to the
+requested section of `<public-room-path>`, preserve existing content, and
+write to no other file. Reply with a one-line completion notice.
 ```
 
-After all turns, adjudicate disputes and record the accepted cliché list.
+After all turns, adjudicate disputes and record the accepted cliche list.
 The facilitator replaces every placeholder with concrete absolute paths.
 
 ## Forecast Prompt
 
-Send privately:
+Prepend the exact Player Turn Guard block above, then send privately:
 
 ```text
-Read `<briefing-path>` and `<public-room-path>`. Write one non-cliché forecast
-only to `<forecast-path>` using the existing What, Why, and When headings.
-Preserve the template headings, write to no other file, make it concrete,
-plausible, causally grounded, and normally three to five years away. Cite
-independent research if you used it. Reply only after the file is complete.
+Read only `<briefing-path>` and `<public-room-path>`. Write one non-cliche
+forecast only to `<forecast-path>` using the existing What, Why, and When
+headings. Preserve the template headings, write to no other file, make it
+concrete, plausible, causally grounded, and normally three to five years away.
+Cite independent research if you used it. Reply only after the file is
+complete.
 ```
 
-Check every forecast against `references/rules.md`. Request one focused revision
-that names the failed criterion or criteria. If the revised forecast is still
-invalid, preserve artifacts, append the failure and dependencies to
+Check every forecast against `references/rules.md`. Request one focused
+revision that names the failed criterion or criteria. If the revised forecast
+is still invalid, preserve artifacts, append the failure and dependencies to
 `errors.md`, set `Status: paused` with the current phase in `session.md`, and
 pause rather than loop.
 The facilitator replaces every placeholder with concrete absolute paths.
 
+## Forecast Revision Prompt
+
+When a forecast needs one revision, prepend the exact Player Turn Guard block
+above and send:
+
+```text
+Read only `<briefing-path>`, `<public-room-path>`, and `<forecast-path>`.
+Revise only `<forecast-path>`. Address exactly these failed criteria:
+<failed-criteria>. Preserve the existing headings and any valid content, update
+only what is needed to satisfy the named criteria, and write to no other file.
+Reply only after the file is complete.
+```
+
 ## Random Assignment
 
 Make forecast assignments only with an actual available random operation, for
-example `shuf`, never semantic or facilitator ordering. Sample unique forecasts
-without replacement. Record the candidate pool, random method or command, and
-the resulting order and assignment in `session.md` before team discussion. Each
-team receives three forecasts and may discard one. If no trustworthy random
-operation is available, preserve artifacts, append the cause and dependencies
-to `errors.md`, set `Status: paused` with the current phase in `session.md`,
-and pause rather than choose manually.
+example `shuf`, never semantic or facilitator ordering. Sample unique
+forecasts without replacement. Record the candidate pool, random method or
+command, and the resulting order and assignment in `session.md` before team
+discussion. Each team receives three forecasts and may discard one. If no
+trustworthy random operation is available, preserve artifacts, append the
+cause and dependencies to `errors.md`, set `Status: paused` with the current
+phase in `session.md`, and pause rather than choose manually.
 
 ## Team Room Coordination
 
 Never ask multiple members to edit the same team file simultaneously. For each
 round:
 
-1. Tell one member to read the exact relevant forecast paths, public read
-   paths, and the current `<team-path>`, then append a signed contribution only
-   to `<team-path>`.
+1. Prepend the exact Player Turn Guard block above, then tell one member:
+
+   ```text
+   Read only `<briefing-path>`, `<public-room-path>`, the exact assigned
+   `<forecast-paths>`, and `<team-path>`. Append your signed contribution only
+   to the requested section of `<team-path>`, preserve all existing content,
+   and write to no other file. Sign with your player id and display name.
+   Reply with a one-line completion notice.
+   ```
+
 2. Wait for completion.
 3. Send the next member the updated file path.
 4. Continue until the team records a decision.
 
 Use at least one divergence round and one convergence round. Require the team
 to explain why its product fails if either retained forecast is removed.
-Preserve prior entries and append signed contributions. If a wait or status operation times out, do not advance to another editor; follow Failure Procedure.
-The facilitator replaces every placeholder with concrete absolute paths.
-Identify every teammate by player id and display name. Require every signed
-team contribution to identify its author by player id and display name.
+Preserve prior entries and append signed contributions. If a wait or status
+operation times out, do not advance to another editor; follow Failure
+Procedure. The facilitator replaces every placeholder with concrete absolute
+paths. Identify every teammate by player id and display name. Require every
+signed team contribution to identify its author by player id and display name.
 
 ## Presentation Prompt
 
@@ -170,12 +249,32 @@ section. Permit only a small number of clarifying questions; those
 contributions also use one writer at a time with the same sequence. No
 concurrent public-room editors. Ask the designated writer to publish a concise
 pitch containing every required product field, then close discussion before
-voting. The facilitator replaces every placeholder with concrete absolute
-paths.
+voting. Prepend the exact Player Turn Guard block above, then send:
+
+```text
+Read only `<team-path>` and `<public-room-path>`. Append the requested team
+pitch only to `<public-room-path>`, preserve existing public content, and
+write to no other file. Include every required product field. Reply with a
+one-line completion notice.
+```
+
+The facilitator replaces every placeholder with concrete absolute paths.
+
+## Clarification Prompt
+
+When allowing a clarification question or answer, prepend the exact Player Turn
+Guard block above and send:
+
+```text
+Read only `<public-room-path>` and, if needed, your own `<team-path>`. Append
+only the requested clarification entry to `<public-room-path>`, preserve
+existing content, and write to no other file. Keep it concise and reply with a
+one-line completion notice.
+```
 
 ## Voting Prompt
 
-Send privately:
+Prepend the exact Player Turn Guard block above, then send privately:
 
 ```text
 Read only `<public-room-path>`, where public pitches are published. Vote for
@@ -188,13 +287,21 @@ choice. Preserve existing ballot content and write to no other file.
 Reject invalid ballots and request correction.
 The facilitator replaces every placeholder with concrete absolute paths.
 
+## Session Ledger Hygiene
+
+When the current state changes, update or replace any stale present-tense
+summary in `session.md`. If a note is being kept for history, label it
+explicitly as historical and add a timestamp or phase marker. Do not leave a
+present-tense facilitator-ledger claim that is contradicted by a later phase
+record or user decision.
+
 ## Failure Procedure
 
 When a player session fails:
 
 1. Preserve every artifact.
-2. Append timestamp, player, provider, phase, failure, attempted action, and
-   current dependencies to `errors.md`.
+2. Append one new incident block to `errors.md` using the template schema
+   without editing the header or schema instructions.
 3. Stop the affected team and dependent phases.
 4. Pause and ask the user how to proceed.
 
@@ -204,18 +311,34 @@ confirmed session failure is allowed only after explicit user approval and only
 when identity and history are preserved and no pending write exists.
 
 For every pause condition, including session failure, inaccessible file,
-impossible roster, provider incompatibility, material ambiguity, unavailable
-randomness, or an uncertain post-timeout state, preserve artifacts, set
-`Status: paused` and the current phase in `session.md`, append `errors.md` with
-timestamp, cause, attempted action when applicable, and current dependencies,
-then ask the user how to proceed. On response, record the user decision and resumption in both `errors.md` and `session.md` before continuing. After a
-provider wait or status timeout, do not resend or permit another editor until
-the same session has been polled with the provider's registry-defined response
-or status mechanism (`multi_agent_v1.wait_agent` for native Codex) and the
-designated writable artifact has been inspected. If terminal failure is
-confirmed, log it, stop the affected team and dependent phases, and pause per
-this procedure. No resend until user decision. Log every timeout and any
+impossible roster, provider incompatibility, provider policy failure such as an
+off-allowlist read, material ambiguity, unavailable randomness, or an
+uncertain post-timeout state, preserve artifacts, set `Status: paused` and the
+current phase in `session.md`, append one new incident block to `errors.md`,
+then ask the user how to proceed. On response, update `User decision` and
+`Resumption` inside that same incident block before continuing, and record the
+same outcome in `session.md`. Never place live incident values in the template
+instructions or in a generic header. After a provider wait or status timeout,
+do not resend or permit another editor until the same session has been polled
+with the provider's registry-defined response or status mechanism
+(`multi_agent_v1.wait_agent` for native Codex) and the designated writable
+artifact has been inspected. If terminal failure is confirmed, log it in the
+same incident block, stop the affected team and dependent phases, and pause
+per this procedure. No resend until user decision. Log every timeout and any
 approved retry. If state remains uncertain, pause.
+
+## Probe Or Retry Prompt
+
+After a timeout or uncertain completion state, prepend the exact Player Turn
+Guard block above and, if the same session remains valid, send:
+
+```text
+This is a probe or approved retry turn. Read only `<allowed-read-paths>` and
+inspect only `<writable-path>` for the last requested work. Do not write any
+file unless this prompt explicitly names `<writable-path>` as writable. Report
+whether the requested write is complete, incomplete, or uncertain. If you
+cannot comply without reading another path, say so and stop.
+```
 
 ## Final Report
 

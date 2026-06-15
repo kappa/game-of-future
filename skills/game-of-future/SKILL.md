@@ -41,6 +41,8 @@ Resolve project overrides from `game-of-future/registry/` as described in
 
 - Act as the facilitator; do not create a separate facilitator subagent.
 - Give every player a distinct persistent private session.
+- Treat every player session as a participant only, never as a facilitator or
+  co-facilitator.
 - Assign every selected roster entry a unique, stable per-session player id
   before creating player artifacts or starting player sessions. Freeze roster
   order first, reserve `player` for the copied template paths, then generate
@@ -50,8 +52,14 @@ Resolve project overrides from `game-of-future/registry/` as described in
 - Keep personality profiles independent from provider bindings.
 - Use a separate shared Markdown room for each team.
 - Use plain-text prompts, responses, registries, and artifacts.
+- Prepend the exact player sandbox guard from
+  `references/facilitation.md` to every player-facing turn, including start
+  verification, cliché, forecast, revision, team, presentation, clarification,
+  voting, and probe or retry turns.
 - Do not introduce a custom orchestration program or encoded wire format.
 - Treat context reconstruction as a user-approved last resort.
+- Treat any off-allowlist read, including skill or repository instruction
+  discovery, as a provider policy failure. Preserve artifacts and pause.
 - Pause when a persistent player cannot be resumed. Never silently replace,
   remove, recreate, or impersonate a failed player.
 - Never use a profile id as the per-session artifact identity. Profile IDs must
@@ -77,7 +85,9 @@ records. The provider-issued non-secret session handle remains a separate
 value, stored in `roster.md` under that player id. Replace the documented
 template variables as the game progresses. Record current phase, random
 choices, provider-issued non-secret handle values, session-handle labels, and
-facilitator decisions in the artifacts.
+facilitator decisions in the artifacts. When current state changes, update any
+present-tense state summary or relabel it as historical so later ledger entries
+do not contradict it.
 
 The setup checkpoint includes registry resolution, roster selection, unique
 player-id assignment, artifact instantiation, provider binding, starting and
@@ -122,5 +132,6 @@ Do not mark a game complete until:
 - every team has a shared room and structured pitch;
 - products genuinely combine two assigned forecasts;
 - vote totals exclude own-team votes;
-- `errors.md` records all failures and user decisions;
+- `errors.md` records all failures in incident blocks and updates the same block
+  with the user decision and resumption before play continues;
 - `report.md` distinguishes official votes from facilitator commentary.
