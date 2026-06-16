@@ -18,7 +18,11 @@ future experience demonstrates that one is necessary.
 
 ## Invocation And Defaults
 
-The user starts a game by supplying:
+The user starts a game only by explicitly selecting the skill through the
+skills UI or invoking `$game-of-future`. Supplying a topic alone does not start
+the skill.
+
+The user must supply:
 
 - a topic.
 
@@ -47,12 +51,22 @@ Control modes:
 
 - **Autonomous:** run to completion and pause only for a failure or genuine
   ambiguity that the facilitator cannot resolve without changing user intent.
-- **Development:** pause after every phase so the user can inspect artifacts,
-  adjust prompts or registries, and approve continuation.
+- **Development:** pause after the setup checkpoint and after each subsequent
+  canonical phase so the user can inspect artifacts, adjust prompts or
+  registries, and approve continuation.
 
 ## Architecture
 
 The solution is one modular Codex skill with no custom runtime program.
+
+### Invocation
+
+The skill is command-only. `agents/openai.yaml` sets
+`policy.allow_implicit_invocation: false`, so the skill is not injected from
+topic similarity or ordinary mentions. A game starts only when the user
+explicitly selects it or invokes `$game-of-future`. The player sandbox remains
+required because external provider sessions may implement instruction
+discovery independently of Codex skill invocation policy.
 
 ### Facilitator
 
@@ -77,6 +91,7 @@ state are recorded in the session artifacts so they remain inspectable.
 
 Each player is a distinct persistent AI session with:
 
+- a unique, stable per-session player id;
 - a reusable personality profile;
 - a provider binding selected for this game;
 - private conversation history;
@@ -85,8 +100,43 @@ Each player is a distinct persistent AI session with:
 - an obligation to respond in character without sacrificing the game's
   forecasting and product-design goals.
 
+Players are participants only, never facilitators. The complete player start
+prompt must explicitly forbid invoking, loading, discovering, or following the
+Game of Future skill, any other installed or repository skill, AGENTS.md,
+CLAUDE.md, GEMINI.md, plans, specs, source files, or workspace instructions.
+It must state that all authority for the player turn is contained in the
+facilitator's plain-text prompt, that the player must not inspect the working
+directory, repository, or skill implementation, and that paths outside the
+exact per-turn read and write allowlists are forbidden, including
+`$CODEX_HOME`, `.codex`, `.agents`, `skills/`, `docs/`, registries, and other
+session artifacts. If provider defaults conflict, the player must follow this
+narrower sandbox instruction or report inability without reading extra files.
+
+Every player-facing turn, including start verification, cliche, forecast,
+forecast revision, team-room work, presentation, clarification, voting, and
+probe or retry turns, must begin with the same provider-neutral guard before
+any read or write instructions. The start prompt must literally prepend that
+exact guard block, not a paraphrase. Start verification must state the exact
+allowlists for that turn as `Read paths: none. Write paths: none. Do not read
+or write any file.` The initial player-start turn uses the same zero-access
+allowlists and grants no artifact access.
+
 Personality and backend are separate concepts. A profile such as a skeptical
 economist can be bound to Codex, Claude, Gemini, or another supported provider.
+The per-session player id is separate from both the display name and the
+profile id. Freeze roster order first, then generate the id with the
+registry-defined deterministic ASCII-only slug-and-suffix procedure. Reserve
+`player` first because `forecasts/player.md` and `votes/player.md` exist as
+copied template paths until instantiation completes, so assigned player ids
+must never be exactly `player`. Record the id before creating artifacts or
+starting sessions, keep it stable for the entire run, and never use the
+profile id as the artifact identity.
+
+The provider-issued non-secret session handle is a separate value, stored in
+`roster.md` under the assigned player id. Use the player id, not the provider
+handle, for per-player file paths, provider `$PLAYER_ID`, prompt metadata,
+logs, session-handle labels, status records, artifact metadata, and team
+membership references.
 
 Persistent private history is required. Reconstructing a player by replaying
 context is an exceptional, user-approved fallback, not a normal adapter
@@ -98,7 +148,7 @@ coherent persistent sessions.
 Each team receives one shared Markdown file. All team members may read and
 append to it. The room contains:
 
-- members and profile summaries;
+- members identified by player id and display name, plus profile summaries;
 - assigned forecasts;
 - discussion contributions;
 - decisions and rejected alternatives;
@@ -108,7 +158,8 @@ append to it. The room contains:
 
 The facilitator gives teammates turns to read and update the room, preventing
 simultaneous edits and lost changes. Players retain their private session
-histories while using the file as shared team memory.
+histories while using the file as shared team memory. Team membership and every
+signed contribution must identify the player by player id and display name.
 
 ### Skill Contents
 
@@ -180,6 +231,29 @@ A provider is supported only when the facilitator can:
 Native Codex subagents and external commands are peers behind this conceptual
 contract. The skill does not require JSON, a custom protocol, or a wrapper
 program. Provider-specific invocation instructions live in the registry.
+The default installation enables the audited persistent Codex CLI provider;
+the native subagent entry remains disabled until its discovery or trace surface
+is verifiable.
+
+Provider guidance must require explicit `Discovery control`, `Turn trace`, and
+`Trace audit` fields in every provider entry, plus disclosure of known
+`Preloaded context`. Preflight must reject a provider unless either discovery
+is verifiably disabled or the provider names the exact trace artifact or
+channel plus a concrete audit procedure that checks all observable file,
+command, and tool accesses against the per-turn allowlists before the
+facilitator accepts the turn. Each provider must pass and record a zero-access
+start and resume probe using its first actual bound player before the remainder
+of that provider's roster starts. The preflight records provider version/help,
+exact invocation, handle extraction, responses, trace paths, trace
+completeness, and allowlist results. Do not claim native multi-agent tracing
+unless the exact current surface is verified and documented.
+
+Trace auditing establishes behavioral path isolation; it cannot prove the
+absence of hidden provider system context. Known preloaded context is disclosed,
+the exact guard remains authoritative, and a provider is rejected if that
+context causes unauthorized action. Any off-allowlist read is a provider policy
+failure: preserve artifacts and pause. The skill must not claim OS isolation
+when players share a workspace.
 
 If an external engine cannot satisfy persistence and file access cleanly, the
 skill may drop support for that engine instead of adding context-reconstruction
@@ -194,18 +268,23 @@ Each run creates a project-local directory:
 It contains:
 
 - `session.md`: topic, parameters, current phase, phase history, random choices,
-  and facilitator ledger;
-- `roster.md`: selected profiles, provider bindings, teams, and non-secret
-  persistent session handles;
+  and facilitator ledger, with stale present-tense summaries updated or marked
+  explicitly as historical when later phases change the state;
+- `roster.md`: assigned player ids, selected profiles, provider bindings,
+  teams, and provider-issued non-secret session handles stored under each
+  player id;
 - `briefing.md`: shared factual briefing, sources, and research policy;
 - `public-room.md`: announcements, sequential cliché round, challenges,
   presentations, and public outcomes;
-- `forecasts/<player>.md`: one private game artifact per player's forecast;
+- `forecasts/<player-id>.md`: one private game artifact per player's forecast;
 - `teams/<team>.md`: the team's shared room and final pitch;
-- `votes/<player>.md`: the player's private ballot and optional rationale;
+- `votes/<player-id>.md`: the player's private ballot and optional rationale;
 - `report.md`: vote totals, winning concepts, non-binding facilitator analysis,
   and recommended follow-up work;
-- `errors.md`: failures, retries, pauses, user decisions, and resumptions.
+- `errors.md`: failures, retries, pauses, user decisions, and resumptions,
+  recorded as one appended incident block per incident instead of live values
+  in the template header, with retry and resumption updates written back into
+  that same block.
 
 The complete directory remains after every game, regardless of control mode.
 
@@ -235,7 +314,7 @@ players without pre-solving the game or collapsing personality diversity.
 
 ## Game Flow
 
-### 1. Setup
+### Phase 1: Setup
 
 The facilitator:
 
@@ -243,17 +322,37 @@ The facilitator:
 - creates the session directory from templates;
 - resolves global and project registries;
 - selects a diverse roster satisfying user constraints;
+- assigns and records unique per-session player ids before creating player
+  artifacts or starting sessions;
 - binds profiles to supported providers;
+- instantiates `forecasts/<player-id>.md` and `votes/<player-id>.md`;
 - starts one persistent private session per player;
-- records the roster and session handles;
-- creates the shared briefing.
+- verifies that each persistent session is usable;
+- records the roster, provider-issued non-secret session handles, and any
+  session-handle labels separately;
+
+### Phase 2: Shared Briefing
+
+The facilitator prepares the shared factual briefing, records sources, and
+gives every player the same briefing path.
+
+The user-facing setup checkpoint spans canonical Phase 1 Setup and Phase 2
+Shared Briefing. Development mode does not pause between those phases; it
+pauses only after Phase 2 completes and before Phase 3 Public Cliche Round.
+Setup is complete only after registry resolution, roster selection, player-id
+assignment, artifact instantiation, provider binding, session start and
+verification, and shared briefing are all done.
+Copied `forecasts/player.md` and `votes/player.md` templates are removed only
+after every per-player artifact has been instantiated under a non-reserved
+player id. Copied `teams/team.md` templates are removed only after every team
+room has been instantiated under its team id.
 
 The facilitator selects profiles for useful differences in expertise,
 worldview, risk tolerance, incentives, and creative style. Vendor diversity is
 desirable when requested, but personality diversity is the primary roster
 criterion.
 
-### 2. Cliché Round
+### Phase 3: Public Cliche Round
 
 Players participate sequentially in a public room. Each player sees the current
 list and may:
@@ -265,7 +364,7 @@ list and may:
 The facilitator adjudicates disputed items based on the room's reactions and
 records removals. The final list defines what forecasts must move beyond.
 
-### 3. Individual Forecasts
+### Phase 4: Individual Forecasts
 
 Each player privately writes one forecast answering:
 
@@ -285,16 +384,17 @@ A valid forecast must:
 
 The facilitator may request revision when a forecast fails these criteria.
 
-### 4. Team Formation And Forecast Assignment
+### Phase 5: Teams And Assignment
 
 The facilitator creates four teams of three by default. Teams should combine
 players who are not too similar in perspective or provider.
 
 Each team receives three randomly selected forecasts. A team may discard one
 and must design from the intersection of the remaining two. The facilitator
-records the random assignment before team work begins.
+records the random assignment before team work begins. Team membership and
+assigned forecasts identify the source player by player id and display name.
 
-### 5. Product Design
+### Phase 6: Product Design
 
 Players collaborate through their team's shared Markdown room. The facilitator
 coordinates turns until the team produces:
@@ -312,37 +412,36 @@ coordinates turns until the team produces:
 The product must genuinely depend on both selected forecasts. It should not be
 a pre-existing idea with the forecasts attached afterward.
 
-### 6. Presentations
+### Phase 7: Presentations
 
 Each team publishes a concise pitch in the public room. Other players may ask
 a small number of clarifying questions. The facilitator prevents extended
 debate and keeps attention on the product's logic and future niche.
 
-### 7. Voting
+### Phase 8: Voting
 
 Every player privately selects two projects created by other teams. Players
 vote in character and may include a short rationale. A ballot containing the
 player's own team is invalid and must be corrected.
 
-Player votes determine the official result. The facilitator reports totals and
-then adds separate, non-binding commentary on:
+Player votes determine the official result. The facilitator reports totals.
 
-- originality;
-- forecast plausibility;
-- strategic usefulness;
-- strength of forecast intersection;
-- promising ideas that voting may have undervalued.
+### Phase 9: Final Report
 
-### 8. Final Report
-
-The facilitator writes `report.md`, confirms all expected artifacts exist, and
-marks the session complete. The report should preserve uncertainty and treat
-the products as hypotheses for further research rather than validated strategy.
+The facilitator writes `report.md`, confirms all expected artifacts exist,
+reports official vote totals first, and then adds separate non-binding
+commentary on originality, forecast plausibility, strategic usefulness,
+forecast intersection strength, and promising undervalued ideas. The report
+should preserve uncertainty and treat the products as hypotheses for further
+research rather than validated strategy.
 
 ## Control And Pause Behavior
 
-In development mode, the facilitator pauses after setup and after every game
-phase. It summarizes what changed and points the user to the relevant files.
+In development mode, the facilitator pauses after the setup checkpoint and
+after each subsequent canonical phase. It summarizes what changed and points
+the user to the relevant files.
+`Stop after setup` pauses only after the full setup checkpoint completes and
+before the public cliché phase.
 
 In autonomous mode, the facilitator proceeds without approval between phases.
 It pauses only when:
@@ -362,7 +461,8 @@ The facilitator may make ordinary moderation judgments without pausing.
 When a persistent player session fails:
 
 1. Preserve all current artifacts.
-2. Record the failure in `errors.md`.
+2. Append one incident block to `errors.md` without mutating the template
+   header.
 3. Stop advancing the affected team and any dependent phase.
 4. Pause and ask the user how to proceed.
 
@@ -376,6 +476,15 @@ The facilitator must not silently:
 
 Context reconstruction is permitted only after the user explicitly approves it
 for that incident.
+
+For every pause condition, including session failure, inaccessible file,
+impossible roster, provider incompatibility, provider policy failure such as an
+off-allowlist read, unavailable randomness, or uncertain post-timeout state,
+the facilitator must preserve artifacts, record the pause in `session.md`,
+append a new incident block to `errors.md`, and pause. When the user responds,
+the facilitator must update `User decision` and `Resumption` inside that same
+incident block before continuing. Approved retry decisions and actual
+resumptions update that same incident block rather than creating new ones.
 
 ## Quality Goals
 
@@ -427,6 +536,11 @@ Verify:
 - private ballots with no own-team votes;
 - correct vote totals and separate facilitator commentary;
 - complete retained session artifacts;
+- player prompt sandboxing and repeated guard use across all player turns;
+- incident-block logging, including updating `User decision` and `Resumption`
+  in the same block before continuation;
+- facilitator-ledger updates that remove or relabel stale present-tense state
+  summaries;
 - pause-with-state-preserved behavior on a simulated provider failure.
 
 After the skill passes direct verification, forward-test it with isolated agents
@@ -436,8 +550,9 @@ on realistic topics. Forward tests should exercise at least:
 - a mixed-provider roster when compatible external commands are available;
 - development mode;
 - autonomous mode;
-- a provider failure during team work.
+- a provider failure during team work;
+- a provider policy failure caused by an off-allowlist read.
 
 The skill is successful when another Codex instance can follow it without
 hidden knowledge, complete a coherent game, preserve all artifacts, and pause
-safely when persistence assumptions fail.
+safely when persistence or player-sandbox assumptions fail.

@@ -1,1 +1,4 @@
 .worktrees/
+*.swp
+game-of-future/sessions/
+game-of-future/registry/
