@@ -45,13 +45,49 @@ after setup` pauses only at that boundary.
 
 ## Phase 3: Public Cliche Round
 
-Run players sequentially. Give each player the current public list. A player
-may add obvious assumptions, challenge an item as non-obvious, or support a
-challenge.
+Run a fast, lightweight cliche phase in two mini-rounds. The goal is to strike
+out short, obvious, boring, ridiculous, or game-ending futures before serious
+forecasting begins. Do not turn this phase into a strategy brief or a nuanced
+baseline-constraints exercise.
 
-Keep an item when it is broadly treated as obvious. Remove it when meaningful
-disagreement shows it is not common knowledge. Record the challenge and the
-facilitator decision. Forecasts must not repeat the final cliché list.
+### Fast Shout Round
+
+Run players sequentially. Give each player the current public cliche candidate
+list. Each player adds one to three short cliche forecasts: obvious defaults,
+lazy assumptions, boring futures, ridiculous extremes, or totalizing scenarios
+that would make the game uninteresting.
+
+Good candidates are terse, for example:
+
+- AI does everything.
+- Privacy is solved because it is local.
+- Nobody trusts it.
+- Everything gets regulated away.
+- A giant breach kills the market.
+- Nothing changes because institutions are slow.
+- The cloud wins anyway.
+- Global war makes this irrelevant.
+
+Reject or rephrase careful baseline constraints that are useful but not
+cliches, such as "workflow integration will matter more than conversational
+polish," unless they are rewritten as tired forecasts.
+
+### Light Dissent Pass
+
+Run players sequentially again. Give each player the candidate list and any
+existing dissent. A player may challenge only items they believe are not
+actually common, obvious, boring, or game-ending. Dissent is optional and must
+be one sentence per challenged item. Do not run debate, forecasting, or product
+ideation in this pass.
+
+### Adjudication
+
+Keep candidates by default. Remove an item only when significant dissent shows
+that it is contested rather than common. Merge duplicates and near-duplicates.
+Rephrase long or nuanced items into short cliche form when the intent is clear.
+Keep the final list compact enough to guide forecasts without becoming a full
+strategy brief. Record removed items, major merges, and facilitator decisions.
+Forecasts must not repeat the final cliche list.
 
 ## Phase 4: Individual Forecasts
 
