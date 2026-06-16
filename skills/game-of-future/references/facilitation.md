@@ -155,22 +155,54 @@ started and verified.
 If independent research is enabled, tell players to append sources to their
 own artifact and label inference. Do not conceal unequal tool access.
 
-## Public Cliche Prompt
+## Public Cliche Shout Prompt
 
 Prepend the exact Player Turn Guard block above, then send players
 sequentially:
 
 ```text
-Read only `<briefing-path>` and `<public-room-path>`. Add up to three
-assumptions that are genuinely obvious for this topic. You may instead
-challenge an existing item or support a recorded challenge. Explain a
-challenge in one sentence. Append your signed contribution only to the
-requested section of `<public-room-path>`, preserve existing content, and
-write to no other file. Reply with a one-line completion notice.
+Read only `<briefing-path>` and `<public-room-path>`.
+Write only `<public-room-path>`.
+
+Fast cliche shout round. Add 1-3 short cliche forecasts for this topic:
+obvious defaults, lazy assumptions, boring futures, ridiculous extremes, or
+game-ending scenarios the room should strike out before forecasting. Keep each
+item short. Do not write nuanced analysis, baseline constraints, product
+ideas, or serious forecasts.
+
+Append your signed contribution only to `Cliche Shout Round` in
+`<public-room-path>`, preserve existing content, and write to no other file.
+Reply with a one-line completion notice.
 ```
 
-After all turns, adjudicate disputes and record the accepted cliche list.
-The facilitator replaces every placeholder with concrete absolute paths.
+After all shout turns, run the light dissent pass.
+
+## Public Cliche Dissent Prompt
+
+Prepend the exact Player Turn Guard block above, then send players
+sequentially:
+
+```text
+Read only `<public-room-path>`.
+Write only `<public-room-path>`.
+
+Light dissent pass. Review the candidate cliches in `Cliche Shout Round` and
+the existing entries in `Light Dissent Pass`. Challenge only items that are not
+actually common, obvious, boring, or game-ending. One sentence per challenge.
+Do not debate, improve, forecast, or add new cliche candidates.
+
+If you have no dissent, append one signed line saying `No dissent.` to
+`Light Dissent Pass`. Otherwise append only your signed dissent entries to
+`Light Dissent Pass`. Preserve existing content and write to no other file.
+Reply with a one-line completion notice.
+```
+
+After all dissent turns, adjudicate candidates according to
+`references/rules.md`, merge near-duplicates, rephrase long candidates into
+short cliche form when possible, and record the accepted cliche list in
+`Final Cliche List`.
+The facilitator replaces every angle-bracketed token with concrete absolute
+paths.
 
 ## Forecast Prompt
 
