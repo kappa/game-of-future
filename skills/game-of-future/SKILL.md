@@ -121,7 +121,8 @@ Run these phases in order:
    instantiate per-player artifacts, bind providers, and start and verify
    persistent player sessions.
 2. Prepare the shared factual briefing.
-3. Run the sequential public cliché round with challenges.
+3. Run the fast public cliche shout round, light dissent pass, and final cliche
+   adjudication.
 4. Collect one private forecast from every player and enforce the forecast
    quality gate.
 5. Form teams and randomly assign three forecasts per team.

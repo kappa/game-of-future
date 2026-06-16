@@ -2,11 +2,11 @@
 
 ## Announcements
 
-## Cliché Contributions
+## Cliche Shout Round
 
-## Challenges
+## Light Dissent Pass
 
-## Final Cliché List
+## Final Cliche List
 
 ## Team Presentations
 
