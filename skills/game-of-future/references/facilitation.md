@@ -168,7 +168,10 @@ Fast cliche shout round. Add 1-3 short cliche forecasts for this topic:
 obvious defaults, lazy assumptions, boring futures, ridiculous extremes, or
 game-ending scenarios the room should strike out before forecasting. Keep each
 item short. Do not write nuanced analysis, baseline constraints, product
-ideas, or serious forecasts.
+ideas, or serious forecasts. Use plain language, not jargon. Submit only items
+that would be boring to develop. A good cliche makes the room roll its eyes,
+not lean forward; if it raises an interesting question worth forecasting or
+building around, do not submit it.
 
 Append your signed contribution only to `Cliche Shout Round` in
 `<public-room-path>`, preserve existing content, and write to no other file.
@@ -187,9 +190,10 @@ Read only `<public-room-path>`.
 Write only `<public-room-path>`.
 
 Light dissent pass. Review the candidate cliches in `Cliche Shout Round` and
-the existing entries in `Light Dissent Pass`. Challenge only items that are not
-actually common, obvious, boring, or game-ending. One sentence per challenge.
-Do not debate, improve, forecast, or add new cliche candidates.
+the existing entries in `Light Dissent Pass`. Challenge an item only when it is
+not actually common, obvious, boring, or game-ending; is unclear or
+jargon-heavy; or is interesting enough to forecast around. One sentence per
+challenge. Do not debate, improve, forecast, or add new cliche candidates.
 
 If you have no dissent, append one signed line saying `No dissent.` to
 `Light Dissent Pass`. Otherwise append only your signed dissent entries to
@@ -199,8 +203,9 @@ Reply with a one-line completion notice.
 
 After all dissent turns, adjudicate candidates according to
 `references/rules.md`, merge near-duplicates, rephrase long candidates into
-short cliche form when possible, and record the accepted cliche list in
-`Final Cliche List`.
+short cliche form when possible, clean up unclear wording into plain language,
+generalize narrow submissions into more obvious cliches when that preserves
+the intent, and record the accepted cliche list in `Final Cliche List`.
 The facilitator replaces every angle-bracketed token with concrete absolute
 paths.
 

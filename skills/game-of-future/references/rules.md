@@ -48,14 +48,19 @@ after setup` pauses only at that boundary.
 Run a fast, lightweight cliche phase in two mini-rounds. The goal is to strike
 out short, obvious, boring, ridiculous, or game-ending futures before serious
 forecasting begins. Do not turn this phase into a strategy brief or a nuanced
-baseline-constraints exercise.
+baseline-constraints exercise. A useful cliche makes the room roll its eyes,
+not lean forward. If a statement raises interesting questions, invites product
+development, or needs explanation before people understand it, it is not ready
+for the final cliche list.
 
 ### Fast Shout Round
 
 Run players sequentially. Give each player the current public cliche candidate
 list. Each player adds one to three short cliche forecasts: obvious defaults,
 lazy assumptions, boring futures, ridiculous extremes, or totalizing scenarios
-that would make the game uninteresting.
+that would make the game uninteresting. Candidates must be boring to develop.
+Do not submit a statement if the group would want to explore incentives,
+mechanisms, edge cases, or product opportunities around it.
 
 Good candidates are terse, for example:
 
@@ -72,22 +77,32 @@ Reject or rephrase careful baseline constraints that are useful but not
 cliches, such as "workflow integration will matter more than conversational
 polish," unless they are rewritten as tired forecasts.
 
+Reject unclear or jargon-heavy candidates unless they can be cleaned up into
+plain language that is immediately obvious to everyone in the room.
+
 ### Light Dissent Pass
 
 Run players sequentially again. Give each player the candidate list and any
-existing dissent. A player may challenge only items they believe are not
-actually common, obvious, boring, or game-ending. Dissent is optional and must
-be one sentence per challenged item. Do not run debate, forecasting, or product
-ideation in this pass.
+existing dissent. A player may challenge an item only when they believe it is
+not actually common, obvious, boring, or game-ending; is unclear or
+jargon-heavy; or is interesting enough to forecast around. Dissent is optional
+and must be one sentence per challenged item. Do not run debate, forecasting,
+or product ideation in this pass.
 
 ### Adjudication
 
-Keep candidates by default. Remove an item only when significant dissent shows
-that it is contested rather than common. Merge duplicates and near-duplicates.
-Rephrase long or nuanced items into short cliche form when the intent is clear.
-Keep the final list compact enough to guide forecasts without becoming a full
-strategy brief. Record removed items, major merges, and facilitator decisions.
-Forecasts must not repeat the final cliche list.
+Before finalizing, the facilitator cleans up the list for shared room clarity.
+They may rephrase jargon-heavy, narrow, or awkward submissions into plain,
+crystal-clear cliches, and may generalize them into even more obvious cliches
+when that better captures the boring default. Keep candidates by default after
+that cleanup. Remove or park an item when significant dissent shows it is
+contested rather than common, or when the facilitator cannot make it clear and
+boring without turning it into a different idea. Merge duplicates and
+near-duplicates. Rephrase long or nuanced items into short cliche form when
+the intent is clear. Keep the final list compact enough to guide forecasts
+without becoming a full strategy brief. Record removed items, major merges,
+facilitator rephrases, generalizations, and final decisions. Forecasts must
+not repeat the final cliche list.
 
 ## Phase 4: Individual Forecasts
 
