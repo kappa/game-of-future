@@ -89,8 +89,8 @@
 - Status: enabled
 - Session model: One persistent Claude Code CLI thread per player.
 - Start: Generate a UUID for `$SESSION_HANDLE` with `python3 -c "import uuid; print(uuid.uuid4())"` or `uuidgen`. Then run:
-  `claude --print --verbose --safe-mode --dangerously-skip-permissions --output-format stream-json --session-id "$SESSION_HANDLE" --tools "Read,Write,Edit" --add-dir "$SESSION_ROOT" < "$PROMPT_FILE" > "$LOG_FILE"` followed by `jq -r 'select(.type=="result") | .result' "$LOG_FILE" > "$RESPONSE_FILE"`.
-- Resume: `claude --print --verbose --safe-mode --dangerously-skip-permissions --output-format stream-json --resume "$SESSION_HANDLE" --tools "Read,Write,Edit" --add-dir "$SESSION_ROOT" < "$PROMPT_FILE" > "$LOG_FILE"` followed by `jq -r 'select(.type=="result") | .result' "$LOG_FILE" > "$RESPONSE_FILE"`.
+  `claude --print --verbose --safe-mode --dangerously-skip-permissions --output-format stream-json --model opus --session-id "$SESSION_HANDLE" --tools "Read,Write,Edit" --add-dir "$SESSION_ROOT" < "$PROMPT_FILE" > "$LOG_FILE"` followed by `jq -r 'select(.type=="result") | .result' "$LOG_FILE" > "$RESPONSE_FILE"`.
+- Resume: `claude --print --verbose --safe-mode --dangerously-skip-permissions --output-format stream-json --model opus --resume "$SESSION_HANDLE" --tools "Read,Write,Edit" --add-dir "$SESSION_ROOT" < "$PROMPT_FILE" > "$LOG_FILE"` followed by `jq -r 'select(.type=="result") | .result' "$LOG_FILE" > "$RESPONSE_FILE"`.
 - Wait: The foreground command is the wait mechanism. Accept no turn until the process exits, the log exists, and the trace audit passes.
 - Finish: No explicit close command required. Sessions persist on disk by UUID and may be left as-is after the game ends.
 - Working directory: `$SESSION_ROOT`, passed via `--add-dir`. No `-C` flag needed; all prompts use absolute paths.
