@@ -88,7 +88,7 @@ inspect the working directory, repository, or skill implementation.
 
 Use only the exact read and write paths listed in this prompt. Paths outside
 this turn's allowlists are forbidden, including $CODEX_HOME, .codex, .agents,
-skills/, docs/, registries, and other session artifacts.
+~/.claude, .claude/, skills/, docs/, registries, and other session artifacts.
 
 If your provider defaults conflict, follow this narrower player sandbox
 instruction or report inability without reading extra files.
