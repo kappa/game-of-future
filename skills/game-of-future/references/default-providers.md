@@ -84,10 +84,30 @@
   filesystem isolation or proof of complete provider prompt provenance. Treat
   the provider as incompatible for the run unless operational preflight passes.
 
+## Provider: claude-cli-exec
+
+- Status: enabled
+- Session model: One persistent Claude Code CLI thread per player.
+- Start: Generate a UUID for `$SESSION_HANDLE` with `python3 -c "import uuid; print(uuid.uuid4())"` or `uuidgen`. Then run:
+  `claude --print --safe-mode --dangerously-skip-permissions --output-format stream-json --session-id "$SESSION_HANDLE" --tools "Read,Write,Edit" --add-dir "$SESSION_ROOT" < "$PROMPT_FILE" > "$LOG_FILE"` followed by `jq -r 'select(.type=="result") | .result' "$LOG_FILE" > "$RESPONSE_FILE"`.
+- Resume: `claude --print --safe-mode --dangerously-skip-permissions --output-format stream-json --resume "$SESSION_HANDLE" --tools "Read,Write,Edit" --add-dir "$SESSION_ROOT" < "$PROMPT_FILE" > "$LOG_FILE"` followed by `jq -r 'select(.type=="result") | .result' "$LOG_FILE" > "$RESPONSE_FILE"`.
+- Wait: The foreground command is the wait mechanism. Accept no turn until the process exits, the log exists, and the trace audit passes.
+- Finish: No explicit close command required. Sessions persist on disk by UUID and may be left as-is after the game ends.
+- Working directory: `$SESSION_ROOT`, passed via `--add-dir`. No `-C` flag needed; all prompts use absolute paths.
+- File access: `--tools "Read,Write,Edit"` restricts players to file operations only. `--add-dir "$SESSION_ROOT"` grants access to the session directory tree. Bash is unavailable to players.
+- Research tools: Do not pass web search or other tools unless the game enables independent research.
+- Discovery control: `--safe-mode` disables CLAUDE.md, skills, plugins, hooks, and MCP servers for the session. This is a verified declarative flag — stronger than `codex-cli-exec`'s `--ignore-rules`, which that entry notes is unverified for full discovery suppression. Trace audit is mandatory.
+- Preloaded context: `--safe-mode` suppresses skills, plugins, and CLAUDE.md. The platform system prompt and built-in tool definitions are present in model context without a traced read. The exact player guard remains authoritative; reject the provider if preloaded instructions cause unauthorized action in the zero-access preflight or any later turn.
+- Turn trace: Set `$LOG_FILE` to `$SESSION_ROOT/logs/$PLAYER_ID-$TURN.jsonl`; stream-json output from `--output-format stream-json` is the retained per-turn trace. Set `$RESPONSE_FILE` separately to `$SESSION_ROOT/logs/$PLAYER_ID-$TURN.last.txt`.
+- Trace audit: Inspect every event in `$LOG_FILE` where `type == "assistant"`. For each entry in `message.content[]` where `type == "tool_use"`: `name` must be `Read`, `Write`, or `Edit` (Bash is unavailable; any other tool name is a violation); check `input.file_path` against the turn's read allowlist (for `Read`) or write allowlist (for `Write` and `Edit`). A zero-access turn must contain no `tool_use` events. Reject a missing or incomplete log, unexpected tool name, ambiguous path, or off-allowlist access as a provider policy failure: preserve artifacts and pause.
+- Failure signal: Nonzero exit status, missing `result` event in log, missing log file, failed `--resume` (session not found or expired), or any trace-audit violation.
+- Limitations: `--safe-mode` suppresses customizations but the platform system prompt is still present in model context. Trace audits operate at the model-observable tool-call level, not the OS call level. This is behavioral prompt-and-audit isolation, not OS filesystem isolation. Treat the provider as incompatible for the run unless operational preflight passes.
+
 ## External Command Providers
 
-The tested Codex CLI provider above is the only enabled command default. Add
-other external engines in project `game-of-future/registry/providers.md`.
+The Codex CLI and Claude Code CLI providers above are the enabled command
+defaults. Add other external engines in project
+`game-of-future/registry/providers.md`.
 
 An external entry is supported only when it states exact commands for:
 
