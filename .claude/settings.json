@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bash */scripts/run-player.sh *)",
+      "Bash(git *)",
+      "Bash(mkdir *)",
+      "Bash(cp *)",
+      "Bash(rm *)",
+      "Bash(ls *)",
+      "Bash(cat *)",
+      "Bash(date *)",
+      "Bash(find *)",
+      "Bash(echo *)",
+      "Bash(head *)",
+      "Bash(grep *)",
+      "Bash(sed *)",
+      "Bash(touch *)",
+      "Bash(wc *)",
+      "Bash(open *)",
+      "Bash(xdg-open *)"
+    ]
+  }
+}
