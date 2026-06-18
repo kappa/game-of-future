@@ -40,8 +40,8 @@ Resolution happens in strict priority order:
 
 ### 1. Explicit session ID or path supplied
 
-Use it directly. No scanning, no confirmation prompt — proceed to generation
-immediately after a one-line confirmation (topic + timestamp).
+Use it directly. No scanning, no list. Show the one-line confirmation
+(topic + timestamp) and proceed on approval.
 
 ### 2. Natural-language filter or no argument
 
@@ -68,7 +68,8 @@ Before generating, always show one line:
 
 > Generating report for: *[topic]* ([session-id]) — ok?
 
-Skip only if the session was supplied as an unambiguous explicit argument.
+This applies in all cases, including when a session ID was supplied explicitly.
+The confirmation costs nothing and prevents generating a report for the wrong session.
 
 ---
 
@@ -87,7 +88,7 @@ any HTML:
 The individual `forecasts/*.md` and `teams/*.md` files are **not** read
 directly — `report.md` already contains curated summaries of all of them.
 If `report.md` is absent or incomplete, fall back to reading `forecasts/*.md`
-and `teams/*.md` directly and note the fallback in the generation log.
+and `teams/*.md` directly and inform the user in the response.
 
 ---
 
@@ -170,10 +171,12 @@ restyle any block without reading the generation logic.
   `.gof-product-card__votes`
 - Content: four team product cards. Each card:
   - Product name as `<h3>`
-  - Core idea: 2–3 sentences
+  - Core idea: 2–3 sentences — Claude distills from the product spec and
+    team pitch, not copied verbatim from either source
   - Target buyer: one line, labelled "For:"
   - Intersection sentence: one sentence on why the product only works when
-    both forecasts combine, labelled "Why it works:"
+    both forecasts combine, labelled "Why it works:" — distilled from the
+    intersection test in `report.md`
   - Vote count: shown as `"N votes"`, small
   - Team label: small, secondary (e.g. "Team Alpha")
 - Winner card: `.gof-product-card--winner` class, left border in accent
