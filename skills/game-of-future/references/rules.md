@@ -38,6 +38,12 @@ Avoid forecasts and product recommendations in the briefing. Mark inference
 as inference. If independent research is enabled, require players to cite it
 in their artifacts.
 
+Open the briefing with the preparation date and session topic. This anchors
+every statistic and trend observation to a specific point in time, so the
+document reads as a historical record rather than as current fact when
+reviewed later. Write statistics in the past tense with their source date
+("As of [year], X...") rather than as timeless present-tense claims.
+
 The user-facing setup checkpoint spans Phase 1 Setup and Phase 2 Shared
 Briefing, with no development-mode pause between them, and ends only after the
 shared briefing is complete and before Phase 3 Public Cliche Round. `Stop
@@ -156,6 +162,12 @@ Every product must state:
 
 Publish one concise pitch per team. Permit only limited clarification
 questions. Prevent extended debate before voting.
+
+Each pitch must be written for a non-expert reader — someone with no
+prior knowledge of the topic domain. Use plain language and concrete
+scenarios. Avoid jargon. A good pitch describes what the product does
+in terms of a specific situation the target user would immediately
+recognise, not in terms of market categories or technical architecture.
 
 ## Phase 8: Voting
 

@@ -152,6 +152,12 @@ Give every player the same briefing path. Setup is complete only after the
 briefing exists and every player session needed for later phases has been
 started and verified.
 
+Open the briefing with the preparation date and session topic. Write every
+statistic and trend observation in the past tense with its source date
+("As of [year], X...") rather than as a timeless present-tense claim. A
+reader who opens the briefing months or years later should be able to tell
+at a glance when the facts were current.
+
 If independent research is enabled, tell players to append sources to their
 own artifact and label inference. Do not conceal unequal tool access.
 
@@ -295,8 +301,15 @@ voting. Prepend the exact Player Turn Guard block above, then send:
 ```text
 Read only `<team-path>` and `<public-room-path>`. Append the requested team
 pitch only to `<public-room-path>`, preserve existing public content, and
-write to no other file. Include every required product field. Reply with a
-one-line completion notice.
+write to no other file. Include every required product field.
+
+Write the pitch for a non-expert reader — someone with no prior knowledge
+of the topic domain. Use plain language. Describe what the product does in
+terms of a specific scenario the target user would recognise. Avoid jargon,
+market categories, and technical architecture. If a term needs explaining
+to make sense, replace it with a plain description instead.
+
+Reply with a one-line completion notice.
 ```
 
 The facilitator replaces every placeholder with concrete absolute paths.
