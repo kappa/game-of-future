@@ -1,5 +1,24 @@
 # Facilitation
 
+## Facilitator Tooling
+
+Use platform file tools (Write, Edit, Read) for all prompt file creation and
+artifact updates. Do not use shell commands to write prompt content — shell
+heredocs and variable-assignment preambles bypass allowlist patterns and
+trigger permission prompts.
+
+Use the project runner script (`bash */scripts/run-player.sh`) for all player
+session operations: `start`, `resume`, `extract-handle`, `audit`, `gen-uuid`,
+and `shuf`. This is the only Bash operation needed for running player turns.
+All other Bash use is limited to standard unix utilities (git, mkdir, cp, ls,
+date, find, grep, sed).
+
+This separation means:
+- Prompt files: Write tool
+- Roster and session ledger updates: Edit tool
+- Player session execution: `run-player.sh` via Bash
+- Everything else: standard unix utils via Bash
+
 ## Control Modes
 
 In autonomous mode, proceed between phases without asking for approval. Pause
