@@ -16,8 +16,6 @@
       "Bash(sed *)",
       "Bash(touch *)",
       "Bash(wc *)",
-      "Bash(open *)",
-      "Bash(xdg-open *)",
       "Bash(jq *)",
       "Bash(shuf *)"
     ]

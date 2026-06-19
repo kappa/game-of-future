@@ -755,11 +755,6 @@ section clearly as non-binding commentary.
 
 ---
 
-## Step 4 — Open the File
+## Step 4 — Report to the User
 
-After writing `report.html`, open it in the default browser:
-
-- Linux: `xdg-open [full-path-to-report.html]`
-- macOS: `open [full-path-to-report.html]`
-
-Then report to the user: "report.html written to [path] and opened in browser."
+Tell the user: "report.html written to [path]."
