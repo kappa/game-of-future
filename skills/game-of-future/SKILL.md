@@ -19,7 +19,7 @@ invoke the skill.
 ## Required Input
 
 Require a user-supplied topic. Accept optional roster constraints, control mode,
-and research policy.
+research policy, and language.
 
 Use these defaults when omitted:
 
@@ -28,6 +28,7 @@ Use these defaults when omitted:
 - shared briefing
 - no independent player research
 - two votes per player for other teams
+- language: detected from the topic text
 
 Do not refine, replace, or autonomously choose the topic.
 
