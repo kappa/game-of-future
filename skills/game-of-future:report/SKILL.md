@@ -755,6 +755,8 @@ section clearly as non-binding commentary.
 
 ---
 
-## Step 4 — Report to the User
+## Step 4 — Open the File
 
-Tell the user: "report.html written to [path]."
+Open `report.html` in the default browser using the appropriate command for
+the current OS, then tell the user: "report.html written to [path] and opened
+in browser."
