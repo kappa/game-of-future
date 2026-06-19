@@ -8,8 +8,10 @@ heredocs and variable-assignment preambles bypass allowlist patterns and
 trigger permission prompts.
 
 Use the project runner script (`bash */scripts/run-player.sh`) for all player
-session operations: `start`, `resume`, `extract-handle`, `audit`, `gen-uuid`,
-and `shuf`. This is the only Bash operation needed for running player turns.
+session operations: `start`, `resume`, `extract-handle`, `audit`, `version`,
+`gen-uuid`, and `shuf`. This is the only Bash operation needed for running
+player turns. Never call provider binaries (codex, claude) directly — use
+`run-player.sh` instead to stay within the Bash allowlist.
 All other Bash use is limited to standard unix utilities (git, mkdir, cp, ls,
 date, find, grep, sed, jq, shuf).
 

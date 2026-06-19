@@ -10,6 +10,7 @@
 #                                  prints "PASS <player_id>: <response>" or "FAIL <player_id>: <detail>"
 #   run-player.sh extract-handle <provider> <log_file>
 #   run-player.sh audit          <provider> <log_file>
+#   run-player.sh version        <provider>
 #   run-player.sh gen-uuid
 #   run-player.sh shuf           <item1> [item2 ...]
 
@@ -150,6 +151,18 @@ case "$COMMAND" in
     esac
     ;;
 
+  version)
+    PROVIDER="$1"
+    case "$PROVIDER" in
+      claude-cli-exec)
+        claude --version ;;
+      codex-cli-exec)
+        codex --version ;;
+      *)
+        echo "Unknown provider: $PROVIDER" >&2; exit 1 ;;
+    esac
+    ;;
+
   gen-uuid)
     python3 -c "import uuid; print(uuid.uuid4())"
     ;;
@@ -160,7 +173,7 @@ case "$COMMAND" in
 
   *)
     echo "Unknown command: ${COMMAND}" >&2
-    echo "Usage: run-player.sh start|resume|verify|extract-handle|audit|gen-uuid|shuf [args...]" >&2
+    echo "Usage: run-player.sh start|resume|verify|extract-handle|audit|version|gen-uuid|shuf [args...]" >&2
     exit 1
     ;;
 esac
