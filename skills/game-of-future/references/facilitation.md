@@ -11,13 +11,60 @@ Use the project runner script (`bash */scripts/run-player.sh`) for all player
 session operations: `start`, `resume`, `extract-handle`, `audit`, `gen-uuid`,
 and `shuf`. This is the only Bash operation needed for running player turns.
 All other Bash use is limited to standard unix utilities (git, mkdir, cp, ls,
-date, find, grep, sed).
+date, find, grep, sed, jq, shuf).
 
 This separation means:
 - Prompt files: Write tool
 - Roster and session ledger updates: Edit tool
 - Player session execution: `run-player.sh` via Bash
 - Everything else: standard unix utils via Bash
+
+## Bash Command Rules (non-negotiable)
+
+Every Bash call must follow these rules exactly. Violations trigger permission
+prompts that interrupt autonomous runs.
+
+**Never start a Bash command with a variable assignment.** The allowlist
+matches on the literal command prefix. `SESSION_ROOT=... jq ...` does not
+match `Bash(jq *)` and will prompt. Write literal full paths inline:
+
+```
+# WRONG — blocked by allowlist
+SESSION_ROOT="/path/to/session"
+jq '.type' "$SESSION_ROOT/logs/player.jsonl"
+
+# CORRECT
+jq '.type' /path/to/session/logs/player.jsonl
+```
+
+**Never use shell control flow.** No `for`, `while`, `if`, `case`, `&&`
+chains longer than a single command, or subshells `$()` as preambles. Each
+Bash call must be exactly one command. To run N players, make N separate Bash
+tool calls — one per player — which can be issued in parallel in a single
+response when the players write to different files.
+
+```
+# WRONG — blocked (for loop)
+for player in alpha beta gamma; do
+  bash scripts/run-player.sh resume "$player" ...
+done
+
+# CORRECT — three separate Bash tool calls in one response (parallel)
+bash .../run-player.sh resume alpha-uuid ...
+bash .../run-player.sh resume beta-uuid ...
+bash .../run-player.sh resume gamma-uuid ...
+```
+
+**Never copy files with a loop.** Use individual `cp` calls or, preferably,
+the Write tool to create files from known content.
+
+**Trace auditing with jq.** When auditing a JSONL trace, use the literal
+path directly:
+
+```
+jq -r 'select(.type=="assistant") | ...' \
+  /full/path/to/session/logs/player-start.jsonl
+```
 
 ## Control Modes
 

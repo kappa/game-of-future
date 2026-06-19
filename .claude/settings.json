@@ -19,8 +19,7 @@
       "Bash(open *)",
       "Bash(xdg-open *)",
       "Bash(jq *)",
-      "Bash(shuf *)",
-      "Bash(chmod *)"
+      "Bash(shuf *)"
     ]
   }
 }
