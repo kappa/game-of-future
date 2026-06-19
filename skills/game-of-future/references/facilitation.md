@@ -19,6 +19,26 @@ This separation means:
 - Player session execution: `run-player.sh` via Bash
 - Everything else: standard unix utils via Bash
 
+## Session Language
+
+**Determine language at setup.** Use the user-supplied `language` parameter if
+provided; otherwise infer the language from the topic text. Record the result
+as the `Language:` field in `session.md`.
+
+**Lock the guard at setup.** Translate the Player Turn Guard into the session
+language exactly once. Record the translation verbatim in the `Locked Player
+Turn Guard` section of `session.md`. For every subsequent turn, prepend only
+this recorded text as the guard — do not re-translate it and do not use the
+English source below. The verbatim requirement applies to the locked
+translation, not to the English source.
+
+**All facilitator content in session language.** Write the briefing, all player
+prompts, cliché adjudication, team coordination turns, presentation turns,
+clarification turns, and the final report in the session language.
+
+**Player profiles in session language.** When delivering a player profile in
+the start prompt, translate it into the session language.
+
 ## Bash Command Rules (non-negotiable)
 
 Every Bash call must follow these rules exactly. Violations trigger permission
