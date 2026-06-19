@@ -108,11 +108,15 @@ The file must work offline when opened from `file://` with no network:
 
 ### Language Rule
 
-Generate all text content in the same language as the session. Read the
-session language from `session.md` (the `Язык` / `Language` field or from the
-topic text). If the session was conducted in Russian, write all section labels,
-intro text, badges, and facilitator prose in Russian. If in English, write in
-English. Match the output language to the session language without exception.
+Read the session language from the `Language:` field in `session.md`.
+
+All strings shown in the Section Content Instructions below are English-language
+templates. Every string that is not sourced from a session artifact (topic,
+player names, forecast text, vote counts, dates, session IDs) must be rendered
+in the session language. This covers section labels, intro paragraphs, badges,
+inline labels, the hero subtitle and about note, the footer line, and any other
+fixed text. Set the `<html lang="">` attribute to the BCP 47 code for the
+session language.
 
 ### Document Skeleton
 
