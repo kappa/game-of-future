@@ -6,6 +6,7 @@
 - Research policy: {{RESEARCH_POLICY}}
 - Player count: {{PLAYER_COUNT}}
 - Team count: {{TEAM_COUNT}}
+- Language: {{LANGUAGE}}
 - Current phase: setup
 - Status: active
 
@@ -26,3 +27,7 @@
 - [ ] Votes tallied
 - [ ] Final report complete
 - [ ] All provider sessions closed after reporting
+
+## Locked Player Turn Guard
+
+{{PLAYER_TURN_GUARD}}
