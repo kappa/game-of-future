@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Local AI Assistants in Professional Work — Game of Future</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:#f3ead9;background-image:radial-gradient(#e1d5bd 1.4px,transparent 1.4px);background-size:26px 26px;font:400 16px/1.6 'Hanken Grotesk',system-ui,sans-serif;color:#2a2118}
+.wrap{max-width:1000px;margin:0 auto;padding:0 28px 96px}
+section{margin-bottom:64px}
+h1,h2,h3{text-wrap:balance}
+.t-alpha{--tc:#df5338;--ts:#fbe4dd;--ti:#b23a26}
+.t-beta{--tc:#cf871f;--ts:#f7e9cd;--ti:#9a6210}
+.t-gamma{--tc:#1f9b78;--ts:#d4eee5;--ti:#136e56}
+.t-delta{--tc:#7a5cc4;--ts:#e9e1f8;--ti:#583ea0}
+.eyebrow{display:flex;align-items:center;gap:9px;margin-bottom:14px}
+.eyebrow i{width:8px;height:8px;border-radius:50%;background:var(--dot,#df5338)}
+.eyebrow b{font:700 12px 'Space Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--lc,#8a7c64)}
+.h2{font:800 40px/1.04 'Bricolage Grotesque',sans-serif;letter-spacing:-.03em;margin:0 0 14px}
+.intro{font-size:15px;color:#5f5747;margin:0 0 28px;max-width:560px}
+.sectintro{font-size:16px;color:#5f5747;margin:0 0 34px;max-width:620px}
+header{padding:72px 0 36px}
+.kicker{display:inline-flex;align-items:center;gap:9px;background:#2a2118;color:#f3ead9;font:700 11px/1 'Space Mono',monospace;letter-spacing:.14em;text-transform:uppercase;padding:9px 14px;border-radius:999px;margin-bottom:28px}
+.kicker i{width:7px;height:7px;background:#df5338;border-radius:50%}
+header h1{font:800 76px/.97 'Bricolage Grotesque',sans-serif;letter-spacing:-.035em;margin:0 0 22px;max-width:15ch}
+.diamonds{display:flex;gap:8px;margin:0 0 22px}
+.diamonds i{width:11px;height:11px;transform:rotate(45deg)}
+.sub{font:700 13px/1.5 'Space Mono',monospace;letter-spacing:.04em;text-transform:uppercase;color:#9a8a6e;margin:0 0 20px}
+.lede{max-width:600px;font-size:16px;line-height:1.62;color:#5f5747;margin:0}
+.briefing{display:grid;grid-template-columns:1.1fr 1fr;gap:44px;align-items:start}
+.note{font:400 12.5px/1.5 'Space Mono',monospace;color:#a8997d;margin:0 0 20px}
+.facts{list-style:none;margin:0;padding:0}
+.facts li{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid #e2d6bd;align-items:start}
+.facts .n{flex:none;width:26px;height:26px;border-radius:8px;background:#2a2118;color:#f3ead9;font:700 11px/26px 'Space Mono',monospace;text-align:center}
+.facts .txt{font-size:14px;line-height:1.55;color:#4a4030}
+.why{background:#fffdf7;border:2px solid #2a2118;border-radius:18px;padding:30px 32px;box-shadow:7px 7px 0 #df5338}
+.why h3{font:700 24px/1.1 'Bricolage Grotesque',sans-serif;letter-spacing:-.02em;margin:0 0 18px}
+.why p{font-size:15px;line-height:1.7;color:#4a4030;margin:0 0 16px}
+.why p:last-child{margin:0}
+.teams{display:grid;grid-template-columns:repeat(2,1fr);gap:26px}
+.players{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.chip{display:inline-block;background:var(--tc);color:#fff;border:2px solid #2a2118;border-radius:999px;padding:7px 16px;font:700 12px 'Space Mono',monospace;letter-spacing:.08em;text-transform:uppercase;box-shadow:3px 3px 0 #2a2118;margin-bottom:16px}
+.chip.soft{background:var(--ts);color:var(--ti);box-shadow:none;padding:5px 14px;font-size:11px}
+.pcard{background:#fffdf7;border:2px solid #2a2118;border-radius:14px;padding:14px 12px;box-shadow:3px 3px 0 var(--tc)}
+.tok{display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:12px;background:var(--tc);color:#fff;font:800 15px 'Bricolage Grotesque',sans-serif;margin-bottom:12px}
+.pname{font:700 15px/1.12 'Bricolage Grotesque',sans-serif;letter-spacing:-.01em;margin-bottom:8px}
+.role{display:inline-block;background:var(--ts);color:var(--ti);font:600 10px/1.3 'Space Mono',monospace;padding:4px 8px;border-radius:999px}
+.discard{position:relative;background:#ebe0c8;border:2px dashed #b8a988;border-radius:20px;padding:34px 32px 28px}
+.stamp{position:absolute;top:-15px;right:26px;transform:rotate(-7deg);border:3px solid #c0492f;color:#c0492f;font:700 15px 'Space Mono',monospace;letter-spacing:.12em;padding:7px 15px;border-radius:8px;background:#f3ead9;box-shadow:2px 3px 0 rgba(42,33,24,.12)}
+.discard .intro{color:#9a8556}
+.clist{columns:3;column-gap:30px;list-style:none;margin:0;padding:0}
+.clist li{break-inside:avoid;font-size:11.5px;line-height:1.42;color:#8f7d56;padding:4px 0;display:flex;gap:7px}
+.clist i{color:#c0492f;font-weight:700;flex:none}
+.teamblock{margin-top:30px}
+.fgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.fcard{background:#fffdf7;border:2px solid #2a2118;border-top:6px solid var(--tc);border-radius:14px;padding:20px;box-shadow:4px 4px 0 var(--tc)}
+.fhead{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.tok-sm{flex:none;display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:10px;background:var(--tc);color:#fff;font:800 13px 'Bricolage Grotesque',sans-serif}
+.fname{font:700 15px/1.05 'Bricolage Grotesque',sans-serif;letter-spacing:-.01em}
+.fmeta{font:400 10.5px/1.3 'Space Mono',monospace;color:var(--ti);margin-top:2px}
+.fbody{font-size:12.5px;line-height:1.55;color:#534a39;margin:0}
+.prod{background:#fffdf7;border:2px solid #2a2118;border-radius:18px;overflow:hidden;margin-bottom:20px;box-shadow:6px 6px 0 var(--tc)}
+.prod-band{background:var(--ts);border-bottom:2px solid #2a2118;padding:14px 30px;display:flex;align-items:center;gap:8px;font:700 11px 'Space Mono',monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--ti)}
+.prod-band i{width:9px;height:9px;border-radius:50%;background:var(--tc)}
+.prod-body{padding:30px 32px}
+.codename{font:700 10px 'Space Mono',monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--ti);margin-bottom:7px}
+.pn{font:800 30px/1.02 'Bricolage Grotesque',sans-serif;letter-spacing:-.025em;margin:0 0 16px}
+.lead{font-size:15px;line-height:1.68;color:#403728;margin:0 0 22px;max-width:66ch}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:30px;padding-top:20px;border-top:2px solid #efe5d0}
+.mlabel{font:700 11px 'Space Mono',monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--ti);margin-bottom:9px}
+.mtext{font-size:13.5px;line-height:1.6;color:#4a4030;margin:0}
+.winbar{display:flex;align-items:center;gap:22px;background:#f4c542;border:3px solid #2a2118;border-radius:22px;padding:24px 30px;margin-bottom:26px;box-shadow:9px 9px 0 #2a2118}
+.rosette{flex:none;display:flex;flex-direction:column;align-items:center;justify-content:center;width:72px;height:72px;border-radius:50%;background:#fffdf7;border:3px solid #2a2118;font:800 24px/.85 'Bricolage Grotesque',sans-serif;color:#2a2118}
+.rosette i{font:700 10px 'Space Mono',monospace;letter-spacing:.05em}
+.winlabel{font:700 11px 'Space Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:#8a6406;margin-bottom:4px}
+.winname{font:800 46px/.96 'Bricolage Grotesque',sans-serif;letter-spacing:-.03em;color:#2a2118}
+.winteam{font:700 11px 'Space Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:#8a6406;margin-top:5px}
+.tally{background:#fffdf7;border:2px solid #2a2118;border-radius:18px;padding:24px 30px 12px;box-shadow:6px 6px 0 #2a2118}
+.tally-h{display:flex;align-items:center;justify-content:space-between;padding-bottom:14px;border-bottom:2px solid #efe5d0;margin-bottom:4px}
+.tally-h b{font:700 12px 'Space Mono',monospace;letter-spacing:.1em;text-transform:uppercase;color:#2a2118}
+.tally-h span{font:600 11px 'Space Mono',monospace;color:#a8997d}
+.trow{display:flex;align-items:center;gap:18px;padding:15px 0;border-bottom:1px solid #efe5d0}
+.tinfo{flex:none;width:240px}
+.tinfo .top{display:flex;align-items:center;gap:8px}
+.tinfo .top i{flex:none;width:10px;height:10px;border-radius:50%;background:var(--tc)}
+.tinfo .top b{font:700 17px/1 'Bricolage Grotesque',sans-serif;letter-spacing:-.01em}
+.tinfo .top .star{font:700 11px 'Space Mono',monospace;color:#c79400}
+.tinfo .tm{font:600 10px 'Space Mono',monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--ti);margin-top:5px}
+.bar{flex:1;height:16px;background:#efe5d0;border-radius:999px;overflow:hidden;border:1px solid #e2d6bd}
+.bar i{display:block;height:100%;background:var(--tc);border-radius:999px}
+.tv{flex:none;width:74px;text-align:right}
+.tv b{font:800 22px 'Bricolage Grotesque',sans-serif}
+.tv span{font:600 10px 'Space Mono',monospace;color:#a8997d}
+.vnote{font:400 13px/1.5 'Space Mono',monospace;color:#a8997d;margin:0 0 22px}
+.verdict{background:#2a2118;border:2px solid #2a2118;border-radius:18px;padding:36px 40px;box-shadow:7px 7px 0 #cf871f}
+.verdict p{font-size:15.5px;line-height:1.78;color:#ece2cf;margin:0 0 18px;max-width:72ch}
+.verdict p:last-child{margin:0}
+footer{text-align:center;padding-top:20px}
+footer p{font:700 11px 'Space Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:#a8997d;margin:0}
+@media(max-width:720px){.briefing,.teams{grid-template-columns:1fr}.players,.fgrid,.clist{grid-template-columns:1fr;columns:1}.cols{grid-template-columns:1fr}header h1{font-size:48px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <span class="kicker"><i></i>Game of Future · Session Record</span>
+    <h1>Local AI Assistants in Professional Work</h1>
+    <div class="diamonds">
+      <i style="background:#df5338"></i>
+      <i style="background:#cf871f"></i>
+      <i style="background:#1f9b78"></i>
+      <i style="background:#7a5cc4"></i>
+    </div>
+    <p class="sub">A Game of Future Session · June 15, 2026</p>
+    <p class="lede">Game of Future is a structured foresight game where AI players produce independent forecasts, form teams, and design products grounded in plausible futures. This document is the record of one complete session.</p>
+  </header>
+
+  <section class="briefing">
+    <div>
+      <div class="eyebrow" style="--dot:#cf871f"><i></i><b>Before the game · The brief</b></div>
+      <p class="note">Briefing prepared at session start: June 15, 2026. Facts reflect the state of the topic at that moment.</p>
+      <ul class="facts">
+        <li><span class="n">01</span><span class="txt">A February 2025 study mapped more than four million Claude.ai conversations to U.S. occupational tasks. About 36% of occupations showed AI use for at least one quarter of their associated tasks.</span></li>
+        <li><span class="n">02</span><span class="txt">In that study, 57% of observed use was classified as augmentation and 43% as automation. The authors caution that the evidence covers one platform and has methodological limitations.</span></li>
+        <li><span class="n">03</span><span class="txt">Microsoft documented local AI paths on Windows 10 and later through Foundry Local and Windows ML (April 2026), listing local large-language models, speech recognition, semantic search, and OCR among available APIs.</span></li>
+        <li><span class="n">04</span><span class="txt">Meta's Llama 3.2 (October 2024) described 1B and 3B parameter quantized models intended for on-device use, with assistant-like chat, summarization, and mobile writing assistance among intended uses.</span></li>
+        <li><span class="n">05</span><span class="txt">NIST published a Generative AI Risk Management Profile in July 2024, intended to help organizations incorporate trustworthiness into AI design, development, use, and evaluation.</span></li>
+        <li><span class="n">06</span><span class="txt">Professional AI use is broadening beyond isolated drafting, but measured use remains concentrated in information-heavy work such as software and writing.</span></li>
+        <li><span class="n">07</span><span class="txt">Current client operating systems expose increasingly standardized ways to run smaller language, speech, vision, and search models locally, while larger workloads may still require cloud execution.</span></li>
+        <li><span class="n">08</span><span class="txt">Organizations are treating AI deployment as a risk-management and workflow-design problem in addition to a model-capability problem.</span></li>
+      </ul>
+    </div>
+    <div class="why">
+      <h3>Why this, why now</h3>
+      <p>A 2025 study of four million Claude conversations found AI in 36% of occupations, with the majority classified as augmentation rather than automation. AI is extending professional work, not replacing it — but the governance infrastructure for that extension doesn't exist yet.</p>
+      <p>Local execution of AI is now technically feasible on consumer hardware, thanks to Meta's on-device models and Microsoft's Foundry Local APIs. But local inference does not by itself resolve questions of authorization, auditability, accessibility, or organizational accountability.</p>
+      <p>NIST published a Generative AI Risk Management Profile in 2024, signaling that governance frameworks are forming even as deployment norms remain unclear. The interesting tension is not whether local AI will enter professional work — it already has — but whether organizations can govern what's already happening.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow" style="--dot:#1f9b78"><i></i><b>Players · 12 across 4 teams</b></div>
+    <p class="intro" style="max-width:540px">12 AI players, each with a distinct background and worldview, distributed across 4 teams.</p>
+    <div class="teams">
+      <div class="t-alpha">
+        <span class="chip">Team 1</span>
+        <div class="players">
+          <div class="pcard"><span class="tok">MC</span><div class="pname">Mira Chen</div><span class="role">systems futurist</span></div>
+          <div class="pcard"><span class="tok">RM</span><div class="pname">Rosa Martinez</div><span class="role">frontline operator</span></div>
+          <div class="pcard"><span class="tok">AS</span><div class="pname">Amara Singh</div><span class="role">public policy analyst</span></div>
+        </div>
+      </div>
+      <div class="t-beta">
+        <span class="chip">Team 2</span>
+        <div class="players">
+          <div class="pcard"><span class="tok">EW</span><div class="pname">Elias Ward</div><span class="role">skeptical economist</span></div>
+          <div class="pcard"><span class="tok">JO</span><div class="pname">Jamie Okafor</div><span class="role">accessibility advocate</span></div>
+          <div class="pcard"><span class="tok">TN</span><div class="pname">Theo Nakamura</div><span class="role">applied technologist</span></div>
+        </div>
+      </div>
+      <div class="t-gamma">
+        <span class="chip">Team 3</span>
+        <div class="players">
+          <div class="pcard"><span class="tok">NH</span><div class="pname">Noor Haddad</div><span class="role">privacy advocate</span></div>
+          <div class="pcard"><span class="tok">PR</span><div class="pname">Priya Raman</div><span class="role">product strategist</span></div>
+          <div class="pcard"><span class="tok">OB</span><div class="pname">Owen Brooks</div><span class="role">resilience planner</span></div>
+        </div>
+      </div>
+      <div class="t-delta">
+        <span class="chip">Team 4</span>
+        <div class="players">
+          <div class="pcard"><span class="tok">SP</span><div class="pname">Sofia Petrov</div><span class="role">community sociologist</span></div>
+          <div class="pcard"><span class="tok">ML</span><div class="pname">Marcus Lee</div><span class="role">pragmatic founder</span></div>
+          <div class="pcard"><span class="tok">LF</span><div class="pname">Lena Fischer</div><span class="role">contrarian historian</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="discard">
+    <span class="stamp">DISCARDED</span>
+    <div class="eyebrow" style="--dot:#b07a3a;--lc:#a08856"><i></i><b>Round 0 · The cliché basket</b></div>
+    <p class="intro">These are the obvious futures the game discards before play begins. Any product built on one of these would have been disqualified on the spot.</p>
+    <ol class="clist">
+      <li><i>✕</i><span>Professional assistants will usually be hybrid: routine work may stay local, while difficult tasks still use cloud.</span></li>
+      <li><i>✕</i><span>Local execution will not guarantee privacy; endpoint data, logs, permissions, and employer control remain material risks.</span></li>
+      <li><i>✕</i><span>Workflow integration and organizational context will matter more than conversational polish or model benchmarks alone.</span></li>
+      <li><i>✕</i><span>Humans and institutions will retain formal accountability, even as workload pressure makes oversight increasingly shallow.</span></li>
+      <li><i>✕</i><span>Hardware, support, and access to context will produce uneven capability across firms, roles, teams, and workers.</span></li>
+      <li><i>✕</i><span>Assistants will fail most visibly on exceptions, stale records, ambiguous handoffs, outages, and post-disruption reconciliation.</span></li>
+      <li><i>✕</i><span>Deployment will require named ownership, evaluation, version pinning, staged updates, rollback, and incident handling.</span></li>
+      <li><i>✕</i><span>Accessibility, meaningful consent, and privacy-preserving personalization will not emerge automatically from local inference.</span></li>
+      <li><i>✕</i><span>Adoption will begin with narrow, frequent, measurable workflows and read-only or draft recommendations before systems earn permission to act.</span></li>
+      <li><i>✕</i><span>Procurement and regulated use will demand explainability, contestability, records, access controls, and organizational responsibility.</span></li>
+      <li><i>✕</i><span>Peer norms, management behavior, and status differences will shape use and distribute gains at least as much as formal policy.</span></li>
+      <li><i>✕</i><span>Institutions will change more slowly than tools: local assistants will often accelerate existing procedures while workers preserve unofficial knowledge stores.</span></li>
+    </ol>
+  </section>
+
+  <section>
+    <div class="eyebrow" style="--dot:#7a5cc4"><i></i><b>Round 1 · Forecasts</b></div>
+    <p class="intro" style="margin-bottom:8px">Each player produced one independent forecast before teams were formed. These are the raw materials the products are built from.</p>
+
+    <div class="teamblock t-alpha">
+      <span class="chip soft">Team 1</span>
+      <div class="fgrid">
+        <article class="fcard">
+          <div class="fhead"><span class="tok-sm">MC</span><div><div class="fname">Mira Chen</div><div class="fmeta">systems futurist</div></div></div>
+          <p class="fbody">Professional AI adoption will require formal governance paths that give organizations a way to move from informal assistant use to reliable automation without creating surveillance archives. The bottleneck is not model capability but the absence of standard protocols for promoting ad-hoc AI assistance into auditable, version-controlled production software.</p>
+        </article>
+        <article class="fcard">
+          <div class="fhead"><span class="tok-sm">RM</span><div><div class="fname">Rosa Martinez</div><div class="fmeta">frontline operator</div></div></div>
+          <p class="fbody">Local assistants will fail most visibly on edge cases, stale records, and ambiguous handoffs — exactly where professional workflows already break down. Reliable deployment requires graceful degradation at multiple levels: device variability, offline data freshness, and post-disruption reconciliation of queued actions.</p>
+        </article>
+        <article class="fcard">
+          <div class="fhead"><span class="tok-sm">AS</span><div><div class="fname">Amara Singh</div><div class="fmeta">public policy analyst</div></div></div>
+          <p class="fbody">Professional AI accountability will remain with licensed practitioners and institutions even when an assistant generated the disputed action. Procurement will increasingly require documented purpose, access controls, evaluation evidence, and a named organizational owner — not just a claim that local processing is safe.</p>
+        </article>
+      </div>
+    </div>
+
+    <div class="teamblock t-beta">
+      <span class="chip soft">Team 2</span>
+      <div class="fgrid">
+        <article class="fcard">
+          <div class="fhead"><span class="tok-sm">EW</span><div><div class="fname">Elias Ward</div><div class="fmeta">skeptical economist</div></div></div>
+          <p class="fbody">Employers will capture most early productivity gains through higher output expectations before workers see shorter hours or higher pay. Adoption will be uneven because capable hardware and deployment support create per-worker costs that favor larger firms and higher-value roles.</p>
+        </article>
+        <article class="fcard">
+          <div class="fhead"><span class="tok-sm">JO</span><div><div class="fname">Jamie Okafor</div><div class="fmeta">accessibility advocate</div></div></div>
+          <p class="fbody">Local assistants will inherit inaccessible enterprise interfaces, meaning faster inference will not guarantee that disabled workers can perceive, operate, or verify assistant output. Effective equivalent access — voice, keyboard, screen reader, captions — must be designed from the start, not retrofitted after deployment.</p>
+        </article>
+        <article class="fcard">
+          <div class="fhead"><span class="tok-sm">TN</span><div><div class="fname">Theo Nakamura</div><div class="fmeta">applied technologist</div></div></div>
+          <p class="fbody">The practical capability ceiling will be set by integration contracts: stable APIs, typed actions, permission-aware retrieval, and transaction boundaries that constrain what the assistant can safely do. Benchmark accuracy will predict little about operational value without end-to-end evaluation under real permissions, incomplete context, and tool failures.</p>
+        </article>
+      </div>
+    </div>
+
+    <div class="teamblock t-gamma">
+      <span class="chip soft">Team 3</span>
+      <div class="fgrid">
+        <article class="fcard">
+          <div class="fhead"><span class="tok-sm">NH</span><div><div class="fname">Noor Haddad</div><div class="fmeta">privacy advocate</div></div></div>
+          <p class="fbody">Keeping inference local concentrates sensitive prompts, embeddings, and activity logs on devices that can be lost or searched. Organizations demanding audit visibility will create tension between accountability and workers who may stop correcting AI output honestly if every correction becomes discoverable evidence.</p>
+        </article>
+        <article class="fcard">
+          <div class="fhead"><span class="tok-sm">PR</span><div><div class="fname">Priya Raman</div><div class="fmeta">product strategist</div></div></div>
+          <p class="fbody">Successful local assistants will win through one frequent, painful workflow with a clear user and measurable outcome — not through a broad promise to help with everything. Professionals will trust assistants that expose a narrow scope and cite the records they used more readily than assistants marketed as autonomous coworkers.</p>
+        </article>
+        <article class="fcard">
+          <div class="fhead"><span class="tok-sm">OB</span><div><div class="fname">Owen Brooks</div><div class="fmeta">resilience planner</div></div></div>
+          <p class="fbody">Local assistants sold as continuity tools will still depend on cloud-based identity, licensing, and document synchronization to remain useful. Recovery after disruption will matter as much as offline operation: assistants must reconcile queued actions and stale local records without silently duplicating or overwriting professional work.</p>
+        </article>
+      </div>
+    </div>
+
+    <div class="teamblock t-delta">
+      <span class="chip soft">Team 4</span>
+      <div class="fgrid">
+        <article class="fcard">
+          <div class="fhead"><span class="tok-sm">SP</span><div><div class="fname">Sofia Petrov</div><div class="fmeta">community sociologist</div></div></div>
+          <p class="fbody">Workers will judge whether using a local assistant is legitimate by watching respected peers and managers, not by reading formal policy. Teams will develop informal norms about which tasks may be delegated and when assistant use signals competence versus corner-cutting — and those norms will spread faster than any written policy.</p>
+        </article>
+        <article class="fcard">
+          <div class="fhead"><span class="tok-sm">ML</span><div><div class="fname">Marcus Lee</div><div class="fmeta">pragmatic founder</div></div></div>
+          <p class="fbody">Early buyers will fund local assistants first where sensitive data, recurring labor cost, and a measurable turnaround-time problem coincide in the same workflow. Successful pilots will begin with read-only recommendations, then earn permission to execute as teams accumulate evidence on accuracy and failure modes.</p>
+        </article>
+        <article class="fcard">
+          <div class="fhead"><span class="tok-sm">LF</span><div><div class="fname">Lena Fischer</div><div class="fmeta">contrarian historian</div></div></div>
+          <p class="fbody">Like earlier office automation, local assistants will initially accelerate existing procedures more often than they transform the institutions that created those procedures. Workers will preserve unofficial tools, prompts, and local knowledge stores when standardized assistants fail to reflect how work is actually accomplished.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow" style="--dot:#df5338;--lc:#c0492f"><i></i><b>Round 2 · Design — four entrants</b></div>
+    <h2 class="h2" style="max-width:22ch">Four products, each built at the intersection of two forecasts.</h2>
+    <p class="sectintro">Each team discarded one of the three forecasts assigned to it and designed a product that only works when both remaining forecasts are true. Here are the four entrants.</p>
+
+    <article class="prod t-alpha">
+      <div class="prod-band"><i></i>Team 1</div>
+      <div class="prod-body">
+        <div class="codename">Codename</div>
+        <div class="pn">Shadow-to-Standard Gate</div>
+        <p class="lead">Most organizations using local AI assistants are stuck in informal territory: the assistant is doing useful work, but promoting that behavior into reliable automation requires evidence that casual use never generates. Shadow-to-Standard Gate watches candidate workflows in shadow mode, keeping split-audit receipts of content classes accessed, tools invoked, approvals, and outcomes — not full conversation logs. When a workflow reaches defined stability thresholds, a process owner promotes it into a signed, versioned, rollback-ready automation package. The receipts are narrow enough to support audit, appeal, and worker trust, but they're not a surveillance archive.</p>
+        <div class="cols">
+          <div>
+            <div class="mlabel">For</div>
+            <p class="mtext">Compliance-heavy operations teams in insurance, healthcare administration, finance, public benefits, legal operations, and logistics where local AI is already in informal use</p>
+          </div>
+          <div>
+            <div class="mlabel">Why it works</div>
+            <p class="mtext">Theo Nakamura's forecast makes integration contracts the ceiling — without promotion protocols, informal assistant use can never become reliable software. Noor Haddad's split-audit forecast makes narrow receipts the condition for worker trust. Remove either and the product collapses into either surveillance or unsafe automation.</p>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="prod t-beta">
+      <div class="prod-band"><i></i>Team 2</div>
+      <div class="prod-body">
+        <div class="codename">Codename</div>
+        <div class="pn">Accessible Continuity Practice Console</div>
+        <p class="lead">When cloud identity, search, or records systems go down, teams lose more capacity than the outage itself causes — because the AI-mediated accommodations many workers depend on also fail. The Console installs on managed work devices before disruption. An authorized owner publishes a signed practice pack: approved examples, decision vocabulary, policy versions, permissions, and accessibility settings stored locally. During an outage, workers use equivalent task interfaces — keyboard, screen reader, speech, captions, high-contrast flows — to prepare decisions and queue permitted actions. After reconnection, the Console reconciles local ledgers with authoritative systems and routes conflicts to named reviewers.</p>
+        <div class="cols">
+          <div>
+            <div class="mlabel">For</div>
+            <p class="mtext">Hospitals, utilities, municipal service agencies, and logistics operators where continuity and accessibility must function together during cloud-service disruption</p>
+          </div>
+          <div>
+            <div class="mlabel">Why it works</div>
+            <p class="mtext">Owen Brooks's continuity-replica forecast establishes the outage scenario and the need for locally preserved decision capacity. Sofia Petrov's practice-pack forecast establishes that governed team judgment — approved examples, vocabulary, rationales — is what teams actually lose when cloud systems fail. Without both, the product becomes either a simple file cache or an accessible viewer, not an accessible continuity system.</p>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="prod t-gamma">
+      <div class="prod-band"><i></i>Team 3</div>
+      <div class="prod-body">
+        <div class="codename">Codename</div>
+        <div class="pn">Denial Mirror</div>
+        <p class="lead">Every AI-assisted benefits denial needs a human confirmation, but that confirmation moment is where the system most often fails: workers review AI recommendations through portals that may not accommodate their accessibility needs, and the evidence trail needed for an appeal often doesn't exist. Denial Mirror is a local pre-filing gate that runs on the caseworker's device immediately after an assistant recommends denial. It shows which records were consulted, which policy version applied, whether any conflicts went unresolved, and whether any processing happened off-device — and it renders this review in the worker's private accessibility preferences. No complete, accessible receipt means no routine AI-assisted denial filing.</p>
+        <div class="cols">
+          <div>
+            <div class="mlabel">For</div>
+            <p class="mtext">Public benefits agencies and contracted benefits administrators piloting AI assistance in one repeatable denial category; primary users are benefits caseworkers, with supervisors and appeals staff as review users</p>
+          </div>
+          <div>
+            <div class="mlabel">Why it works</div>
+            <p class="mtext">Amara Singh's decision-receipt forecast makes the denial evidence trail a procurement requirement, giving the product an institutional mandate. Jamie Okafor's device-local accessibility-broker forecast ensures the review is accessible in the worker's own preferences without exposing those preferences to every case system. Without the first, there's no mandate; without the second, the product may be unusable for the workers who need it most.</p>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="prod t-delta">
+      <div class="prod-band"><i></i>Team 4</div>
+      <div class="prod-body">
+        <div class="codename">Codename</div>
+        <div class="pn">LedgerLatch</div>
+        <p class="lead">Small accounting firms send hundreds of client files by email under deadline pressure, and a single misdirected attachment — the wrong client's tax return, a document for a different engagement — can trigger regulatory consequences and professional liability claims that dwarf the cost of prevention. LedgerLatch runs on employee devices at the email send moment. It checks recipient domain, attachment content, engagement identifiers, and client names against locally approved context, warning only on high-confidence mismatches. The insurer receives a minimal evidence packet proving the control ran and how each warning was resolved — enough to justify a loss-control discount, without requiring the sensitive document content itself.</p>
+        <div class="cols">
+          <div>
+            <div class="mlabel">For</div>
+            <p class="mtext">5–20 person accounting firms handling multiple clients under deadline pressure; distributed through professional-liability insurers at renewal, reaching firms that would never discover the product independently</p>
+          </div>
+          <div>
+            <div class="mlabel">Why it works</div>
+            <p class="mtext">Priya Raman's disclosure-preflight forecast establishes the last-reversible-moment local check as a professional expectation. Marcus Lee's insurer-distributed evidence-packet forecast establishes the distribution channel and the buyer. Without the preflight, it's a generic scanner with no urgency; without insurer distribution, it's a security plug-in that small firms must discover, evaluate, pay for, and trust alone.</p>
+          </div>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <section>
+    <div class="eyebrow" style="--dot:#cf871f"><i></i><b>Round 3 · Vote — the main event</b></div>
+    <h2 class="h2" style="max-width:18ch">And the players chose…</h2>
+    <p class="sectintro">When pitches were ready, each player cast two secret votes — for products from other teams, never their own. 24 votes in total, one clear result.</p>
+
+    <div class="winbar">
+      <span class="rosette">9<i>1ST</i></span>
+      <div>
+        <div class="winlabel">★ Winner · 9 of 24 votes</div>
+        <div class="winname">Shadow-to-Standard Gate</div>
+        <div class="winteam">Team 1</div>
+      </div>
+    </div>
+
+    <div class="tally">
+      <div class="tally-h"><b>Final tally</b><span>12 players · 2 votes each · 24 total</span></div>
+      <div class="trow t-alpha">
+        <div class="tinfo">
+          <div class="top"><i></i><b>Shadow-to-Standard Gate</b><span class="star">★</span></div>
+          <div class="tm">Team 1</div>
+        </div>
+        <div class="bar"><i style="width:100%"></i></div>
+        <div class="tv"><b>9</b><span> votes</span></div>
+      </div>
+      <div class="trow t-beta">
+        <div class="tinfo">
+          <div class="top"><i></i><b>Accessible Continuity Console</b></div>
+          <div class="tm">Team 2</div>
+        </div>
+        <div class="bar"><i style="width:56%"></i></div>
+        <div class="tv"><b>5</b><span> votes</span></div>
+      </div>
+      <div class="trow t-gamma">
+        <div class="tinfo">
+          <div class="top"><i></i><b>Denial Mirror</b></div>
+          <div class="tm">Team 3</div>
+        </div>
+        <div class="bar"><i style="width:56%"></i></div>
+        <div class="tv"><b>5</b><span> votes</span></div>
+      </div>
+      <div class="trow t-delta">
+        <div class="tinfo">
+          <div class="top"><i></i><b>LedgerLatch</b></div>
+          <div class="tm">Team 4</div>
+        </div>
+        <div class="bar"><i style="width:56%"></i></div>
+        <div class="tv"><b>5</b><span> votes</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section style="margin-bottom:40px">
+    <div class="eyebrow" style="--dot:#2a2118"><i></i><b>Final whistle · Verdict</b></div>
+    <p class="vnote">Optional commentary — this is the facilitator's read, not the players' official result.</p>
+    <div class="verdict">
+      <p>All four products share an unusual trait: they treat AI assistance as a problem to be governed, not a capability to be maximized. Shadow-to-Standard Gate, Denial Mirror, and LedgerLatch each start from the question of what evidence trail the AI's involvement should leave — and answer it differently depending on who needs to read that trail later. The Accessible Continuity Practice Console asks the same question about continuity: what governed team judgment needs to survive a cloud outage, and in what form? This reframing — AI governance as a product category — is the session's main contribution.</p>
+      <p>Shadow-to-Standard Gate won clearly because it addressed the most universal friction point: every organization that has started using local AI assistants productively is stuck in informal territory, with no path from "it works in practice" to "we can rely on it." The product converts that friction into a product category. The vote margin — 9 against 5 for everything else — suggests players recognized something broadly applicable across industries.</p>
+      <p>LedgerLatch may be the most underappreciated concept here. Its narrow scope — one client-disclosure failure mode, one buyer channel — was probably read as a limitation, but narrow scope at launch with a credible insurer distribution path is what makes a wedge viable. The session would benefit from a follow-up asking: which other small-professional-firm categories have the same combination of recurring attachment risk, professional liability exposure, and insurer distribution infrastructure ready to carry the product?</p>
+    </div>
+  </section>
+
+  <footer>
+    <p>Session 20260615T050351Z · June 15, 2026 · Produced by Game of Future</p>
+  </footer>
+
+</div>
+</body>
+</html>

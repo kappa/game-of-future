@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Умение водить машину и обучение вождению в 2030 году — Игра Будущего</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:#f3ead9;background-image:radial-gradient(#e1d5bd 1.4px,transparent 1.4px);background-size:26px 26px;font:400 16px/1.6 'Hanken Grotesk',system-ui,sans-serif;color:#2a2118}
+.wrap{max-width:1000px;margin:0 auto;padding:0 28px 96px}
+section{margin-bottom:64px}
+h1,h2,h3{text-wrap:balance}
+.t-alpha{--tc:#df5338;--ts:#fbe4dd;--ti:#b23a26}
+.t-beta{--tc:#cf871f;--ts:#f7e9cd;--ti:#9a6210}
+.t-gamma{--tc:#1f9b78;--ts:#d4eee5;--ti:#136e56}
+.t-delta{--tc:#7a5cc4;--ts:#e9e1f8;--ti:#583ea0}
+.eyebrow{display:flex;align-items:center;gap:9px;margin-bottom:14px}
+.eyebrow i{width:8px;height:8px;border-radius:50%;background:var(--dot,#df5338)}
+.eyebrow b{font:700 12px 'Space Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--lc,#8a7c64)}
+.h2{font:800 40px/1.04 'Bricolage Grotesque',sans-serif;letter-spacing:-.03em;margin:0 0 14px}
+.intro{font-size:15px;color:#5f5747;margin:0 0 28px;max-width:560px}
+.sectintro{font-size:16px;color:#5f5747;margin:0 0 34px;max-width:620px}
+header{padding:72px 0 36px}
+.kicker{display:inline-flex;align-items:center;gap:9px;background:#2a2118;color:#f3ead9;font:700 11px/1 'Space Mono',monospace;letter-spacing:.14em;text-transform:uppercase;padding:9px 14px;border-radius:999px;margin-bottom:28px}
+.kicker i{width:7px;height:7px;background:#df5338;border-radius:50%}
+header h1{font:800 76px/.97 'Bricolage Grotesque',sans-serif;letter-spacing:-.035em;margin:0 0 22px;max-width:15ch}
+.diamonds{display:flex;gap:8px;margin:0 0 22px}
+.diamonds i{width:11px;height:11px;transform:rotate(45deg)}
+.sub{font:700 13px/1.5 'Space Mono',monospace;letter-spacing:.04em;text-transform:uppercase;color:#9a8a6e;margin:0 0 20px}
+.lede{max-width:600px;font-size:16px;line-height:1.62;color:#5f5747;margin:0}
+.briefing{display:grid;grid-template-columns:1.1fr 1fr;gap:44px;align-items:start}
+.note{font:400 12.5px/1.5 'Space Mono',monospace;color:#a8997d;margin:0 0 20px}
+.facts{list-style:none;margin:0;padding:0}
+.facts li{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid #e2d6bd;align-items:start}
+.facts .n{flex:none;width:26px;height:26px;border-radius:8px;background:#2a2118;color:#f3ead9;font:700 11px/26px 'Space Mono',monospace;text-align:center}
+.facts .txt{font-size:14px;line-height:1.55;color:#4a4030}
+.why{background:#fffdf7;border:2px solid #2a2118;border-radius:18px;padding:30px 32px;box-shadow:7px 7px 0 #df5338}
+.why h3{font:700 24px/1.1 'Bricolage Grotesque',sans-serif;letter-spacing:-.02em;margin:0 0 18px}
+.why p{font-size:15px;line-height:1.7;color:#4a4030;margin:0 0 16px}
+.why p:last-child{margin:0}
+.teams{display:grid;grid-template-columns:repeat(2,1fr);gap:26px}
+.players{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.chip{display:inline-block;background:var(--tc);color:#fff;border:2px solid #2a2118;border-radius:999px;padding:7px 16px;font:700 12px 'Space Mono',monospace;letter-spacing:.08em;text-transform:uppercase;box-shadow:3px 3px 0 #2a2118;margin-bottom:16px}
+.chip.soft{background:var(--ts);color:var(--ti);box-shadow:none;padding:5px 14px;font-size:11px}
+.pcard{background:#fffdf7;border:2px solid #2a2118;border-radius:14px;padding:14px 12px;box-shadow:3px 3px 0 var(--tc)}
+.tok{display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:12px;background:var(--tc);color:#fff;font:800 15px 'Bricolage Grotesque',sans-serif;margin-bottom:12px}
+.pname{font:700 15px/1.12 'Bricolage Grotesque',sans-serif;letter-spacing:-.01em;margin-bottom:8px}
+.role{display:inline-block;background:var(--ts);color:var(--ti);font:600 10px/1.3 'Space Mono',monospace;padding:4px 8px;border-radius:999px}
+.discard{position:relative;background:#ebe0c8;border:2px dashed #b8a988;border-radius:20px;padding:34px 32px 28px}
+.stamp{position:absolute;top:-15px;right:26px;transform:rotate(-7deg);border:3px solid #c0492f;color:#c0492f;font:700 15px 'Space Mono',monospace;letter-spacing:.12em;padding:7px 15px;border-radius:8px;background:#f3ead9;box-shadow:2px 3px 0 rgba(42,33,24,.12)}
+.discard .intro{color:#9a8556}
+.clist{columns:3;column-gap:30px;list-style:none;margin:0;padding:0}
+.clist li{break-inside:avoid;font-size:11.5px;line-height:1.42;color:#8f7d56;padding:4px 0;display:flex;gap:7px}
+.clist i{color:#c0492f;font-weight:700;flex:none}
+.dissent{font:400 12px/1.45 'Space Mono',monospace;color:#a08856;margin:18px 0 0}
+.teamblock{margin-top:30px}
+.fgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.fcard{background:#fffdf7;border:2px solid #2a2118;border-top:6px solid var(--tc);border-radius:14px;padding:20px;box-shadow:4px 4px 0 var(--tc)}
+.fhead{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.tok-sm{flex:none;display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:10px;background:var(--tc);color:#fff;font:800 13px 'Bricolage Grotesque',sans-serif}
+.fname{font:700 15px/1.05 'Bricolage Grotesque',sans-serif;letter-spacing:-.01em}
+.fmeta{font:400 10.5px/1.3 'Space Mono',monospace;color:var(--ti);margin-top:2px}
+.fbody{font-size:12.5px;line-height:1.55;color:#534a39;margin:0}
+.prod{background:#fffdf7;border:2px solid #2a2118;border-radius:18px;overflow:hidden;margin-bottom:20px;box-shadow:6px 6px 0 var(--tc)}
+.prod-band{background:var(--ts);border-bottom:2px solid #2a2118;padding:14px 30px;display:flex;align-items:center;gap:8px;font:700 11px 'Space Mono',monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--ti)}
+.prod-band i{width:9px;height:9px;border-radius:50%;background:var(--tc)}
+.prod-body{padding:30px 32px}
+.codename{font:700 10px 'Space Mono',monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--ti);margin-bottom:7px}
+.pn{font:800 30px/1.02 'Bricolage Grotesque',sans-serif;letter-spacing:-.025em;margin:0 0 16px}
+.lead{font-size:15px;line-height:1.68;color:#403728;margin:0 0 22px;max-width:66ch}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:30px;padding-top:20px;border-top:2px solid #efe5d0}
+.mlabel{font:700 11px 'Space Mono',monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--ti);margin-bottom:9px}
+.mtext{font-size:13.5px;line-height:1.6;color:#4a4030;margin:0}
+.tieblock{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:26px}
+.winbar{display:flex;align-items:center;gap:22px;background:#f4c542;border:3px solid #2a2118;border-radius:22px;padding:24px 30px;box-shadow:9px 9px 0 #2a2118}
+.rosette{flex:none;display:flex;flex-direction:column;align-items:center;justify-content:center;width:72px;height:72px;border-radius:50%;background:#fffdf7;border:3px solid #2a2118;font:800 24px/.85 'Bricolage Grotesque',sans-serif;color:#2a2118}
+.rosette i{font:700 10px 'Space Mono',monospace;letter-spacing:.05em}
+.winlabel{font:700 11px 'Space Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:#8a6406;margin-bottom:4px}
+.winname{font:800 36px/.96 'Bricolage Grotesque',sans-serif;letter-spacing:-.03em;color:#2a2118}
+.winteam{font:700 11px 'Space Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:#8a6406;margin-top:5px}
+.tally{background:#fffdf7;border:2px solid #2a2118;border-radius:18px;padding:24px 30px 12px;box-shadow:6px 6px 0 #2a2118}
+.tally-h{display:flex;align-items:center;justify-content:space-between;padding-bottom:14px;border-bottom:2px solid #efe5d0;margin-bottom:4px}
+.tally-h b{font:700 12px 'Space Mono',monospace;letter-spacing:.1em;text-transform:uppercase;color:#2a2118}
+.tally-h span{font:600 11px 'Space Mono',monospace;color:#a8997d}
+.trow{display:flex;align-items:center;gap:18px;padding:15px 0;border-bottom:1px solid #efe5d0}
+.tinfo{flex:none;width:200px}
+.tinfo .top{display:flex;align-items:center;gap:8px}
+.tinfo .top i{flex:none;width:10px;height:10px;border-radius:50%;background:var(--tc)}
+.tinfo .top b{font:700 17px/1 'Bricolage Grotesque',sans-serif;letter-spacing:-.01em}
+.tinfo .top .star{font:700 11px 'Space Mono',monospace;color:#c79400}
+.tinfo .tm{font:600 10px 'Space Mono',monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--ti);margin-top:5px}
+.bar{flex:1;height:16px;background:#efe5d0;border-radius:999px;overflow:hidden;border:1px solid #e2d6bd}
+.bar i{display:block;height:100%;background:var(--tc);border-radius:999px}
+.tv{flex:none;width:74px;text-align:right}
+.tv b{font:800 22px 'Bricolage Grotesque',sans-serif}
+.tv span{font:600 10px 'Space Mono',monospace;color:#a8997d}
+.vnote{font:400 13px/1.5 'Space Mono',monospace;color:#a8997d;margin:0 0 22px}
+.verdict{background:#2a2118;border:2px solid #2a2118;border-radius:18px;padding:36px 40px;box-shadow:7px 7px 0 #cf871f}
+.verdict p{font-size:15.5px;line-height:1.78;color:#ece2cf;margin:0 0 18px;max-width:72ch}
+.verdict p:last-child{margin:0}
+footer{text-align:center;padding-top:20px}
+footer p{font:700 11px 'Space Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:#a8997d;margin:0}
+@media(max-width:720px){.briefing,.teams,.tieblock{grid-template-columns:1fr}.players,.fgrid,.clist{grid-template-columns:1fr;columns:1}.cols{grid-template-columns:1fr}header h1{font-size:48px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <span class="kicker"><i></i>Игра Будущего · Запись сессии</span>
+    <h1>Умение водить машину и обучение вождению в 2030 году</h1>
+    <div class="diamonds">
+      <i style="background:#df5338"></i>
+      <i style="background:#cf871f"></i>
+      <i style="background:#1f9b78"></i>
+      <i style="background:#7a5cc4"></i>
+    </div>
+    <p class="sub">Сессия Игры Будущего · 18 июня 2026 года</p>
+    <p class="lede">Игра Будущего — это структурированная игра-прогноз, в которой ИИ-игроки создают независимые прогнозы, формируют команды и разрабатывают продукты, основанные на правдоподобных сценариях будущего. Этот документ — запись одной завершённой сессии.</p>
+  </header>
+
+  <section class="briefing">
+    <div>
+      <div class="eyebrow" style="--dot:#cf871f"><i></i><b>До игры · Брифинг</b></div>
+      <p class="note">Брифинг подготовлен в начале сессии: 18 июня 2026 года. Факты отражают состояние темы на этот момент.</p>
+      <ul class="facts">
+        <li><span class="n">01</span><span class="txt">По данным ВОЗ за 2023 год, ежегодно в мире в ДТП погибает около 1,19 миллиона человек; ДТП остаются ведущей причиной смерти среди людей в возрасте 5–29 лет.</span></li>
+        <li><span class="n">02</span><span class="txt">По классификации SAE J3016 (2021), автоматизация делится на уровни L0–L5. Большинство серийных автомобилей к 2025 году достигли уровня L2+.</span></li>
+        <li><span class="n">03</span><span class="txt">Роботакси Waymo уровня L4 работали в коммерческом режиме без водителя в Сан-Франциско, Фениксе и Лос-Анджелесе (данные 2025 года).</span></li>
+        <li><span class="n">04</span><span class="txt">Доля новых автомобилей с автоматической коробкой передач в США и Китае превысила 95% к 2024 году; в Европе доля МКПП сократилась с 70% в 2015-м до менее 35% в 2025 году.</span></li>
+        <li><span class="n">05</span><span class="txt">Системы автоматического экстренного торможения и удержания полосы к 2025 году включены в базовую комплектацию большинства новых автомобилей в ЕС и США.</span></li>
+        <li><span class="n">06</span><span class="txt">Доля американской молодёжи 16–19 лет, имеющей водительские права, снизилась с ~80% в 1983 году до менее 30% в 2023 году.</span></li>
+        <li><span class="n">07</span><span class="txt">Телематические полисы охватывали около 15% рынка автострахования в Великобритании и около 8% в России (2024). Водители в среднем снижали резкость манёвров на 12–18% в первые шесть месяцев (McKinsey, 2025).</span></li>
+        <li><span class="n">08</span><span class="txt">Авиационные исследования NASA и Eurocontrol (2019–2023) зафиксировали деградацию ручных навыков пилотирования у лётчиков, чрезмерно полагающихся на автопилот.</span></li>
+      </ul>
+    </div>
+    <div class="why">
+      <h3>Почему это, почему сейчас</h3>
+      <p>К 2025 году большинство новых серийных автомобилей оснащены системами уровня L2+, а роботакси L4 работают в коммерческом режиме в нескольких американских городах. Автоматизация вождения перестала быть экспериментальной — она уже в массовом рынке.</p>
+      <p>Авиационные исследования зафиксировали деградацию ручных навыков у пилотов, чрезмерно полагающихся на автопилот. Тот же риск «дескилизации» применим к водителям: чем больше автоматика берёт на себя, тем менее отработан навык перехвата управления в момент отказа.</p>
+      <p>Действующее законодательство о вождении проверяет ручные навыки, а не компетентность надзора за автоматикой. Страховщики несут остаточную ответственность за аварии при неудачном перехвате, но инструментов для измерения этого риска не существует — и именно это противоречие открывает пространство для новых продуктов.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow" style="--dot:#1f9b78"><i></i><b>Игроки · 12 в 4 командах</b></div>
+    <p class="intro" style="max-width:540px">12 ИИ-игроков с разным опытом и мировоззрением, распределённых по 4 командам.</p>
+    <div class="teams">
+      <div class="t-alpha">
+        <span class="chip">Команда Альфа</span>
+        <div class="players">
+          <div class="pcard"><span class="tok">MC</span><div class="pname">Mira Chen</div><span class="role">системный футурист</span></div>
+          <div class="pcard"><span class="tok">NH</span><div class="pname">Noor Haddad</div><span class="role">сторонник конфиденциальности</span></div>
+          <div class="pcard"><span class="tok">ML</span><div class="pname">Marcus Lee</div><span class="role">прагматичный основатель</span></div>
+        </div>
+      </div>
+      <div class="t-beta">
+        <span class="chip">Команда Бета</span>
+        <div class="players">
+          <div class="pcard"><span class="tok">EW</span><div class="pname">Elias Ward</div><span class="role">скептичный экономист</span></div>
+          <div class="pcard"><span class="tok">OB</span><div class="pname">Owen Brooks</div><span class="role">планировщик устойчивости</span></div>
+          <div class="pcard"><span class="tok">SP</span><div class="pname">Sofia Petrov</div><span class="role">социолог сообществ</span></div>
+        </div>
+      </div>
+      <div class="t-gamma">
+        <span class="chip">Команда Гамма</span>
+        <div class="players">
+          <div class="pcard"><span class="tok">RM</span><div class="pname">Rosa Martinez</div><span class="role">оператор переднего края</span></div>
+          <div class="pcard"><span class="tok">PR</span><div class="pname">Priya Raman</div><span class="role">продуктовый стратег</span></div>
+          <div class="pcard"><span class="tok">LF</span><div class="pname">Lena Fischer</div><span class="role">историк-скептик</span></div>
+        </div>
+      </div>
+      <div class="t-delta">
+        <span class="chip">Команда Дельта</span>
+        <div class="players">
+          <div class="pcard"><span class="tok">JO</span><div class="pname">Jamie Okafor</div><span class="role">сторонник доступности</span></div>
+          <div class="pcard"><span class="tok">AS</span><div class="pname">Amara Singh</div><span class="role">аналитик госполитики</span></div>
+          <div class="pcard"><span class="tok">TN</span><div class="pname">Theo Nakamura</div><span class="role">прикладной технолог</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="discard">
+    <span class="stamp">ОТБРОШЕНО</span>
+    <div class="eyebrow" style="--dot:#b07a3a;--lc:#a08856"><i></i><b>Раунд 0 · Корзина клише</b></div>
+    <p class="intro">Очевидные варианты будущего, которые игра отбрасывает до начала. Любой продукт, построенный на одном из этих клише, дисквалифицировался на месте.</p>
+    <ol class="clist">
+      <li><i>✕</i><span>К 2030 году все машины будут самоуправляемыми, и человеческое вождение исчезнет.</span></li>
+      <li><i>✕</i><span>Права станут не нужны: у всех будет автопилот или роботакси.</span></li>
+      <li><i>✕</i><span>Все пересядут на электромобили, и водить станет так просто, что учиться нечему.</span></li>
+      <li><i>✕</i><span>Автошколы и инструкторы исчезнут: приложение или машина научат сами.</span></li>
+      <li><i>✕</i><span>Одно приложение научит всех водить за выходные.</span></li>
+      <li><i>✕</i><span>Умные машины полностью уберут аварии к 2030 году.</span></li>
+      <li><i>✕</i><span>Умная машина никогда не сломается и не ошибётся.</span></li>
+      <li><i>✕</i><span>Обновление ПО сделает любую старую машину самоуправляемой за одну ночь.</span></li>
+      <li><i>✕</i><span>Автопилот будет работать идеально везде: в любую погоду, в любой стране, на любой дороге.</span></li>
+      <li><i>✕</i><span>Дороги к 2030 году станут идеальными — сложных условий просто не будет.</span></li>
+      <li><i>✕</i><span>Электричество и связь будут всегда и везде, автопилот никогда не отключится.</span></li>
+      <li><i>✕</i><span>Все дружно полюбят автопилот и сразу станут ему доверять.</span></li>
+      <li><i>✕</i><span>Молодёжь и старики будут ездить одинаково, потому что машина одна для всех.</span></li>
+      <li><i>✕</i><span>Раз везде будет автопилот, про доступность для всех можно не думать.</span></li>
+      <li><i>✕</i><span>Все данные о вождении будут в одном удобном приложении.</span></li>
+      <li><i>✕</i><span>Тотальный мониторинг водителей всем понравится и сделает дороги безопаснее.</span></li>
+      <li><i>✕</i><span>Подписка на автопилот, как Netflix: заплатил — и всё нужное есть.</span></li>
+      <li><i>✕</i><span>Любой стартап в сфере вождения сразу станет огромным, потому что рынок большой.</span></li>
+      <li><i>✕</i><span>Все страны примут один общий закон о правах — везде всё будет одинаково.</span></li>
+      <li><i>✕</i><span>Государство отменит экзамен по вождению, раз машины умные.</span></li>
+      <li><i>✕</i><span>Все законы сразу успеют за технологиями, пробелов в регулировании не будет.</span></li>
+      <li><i>✕</i><span>Машины исчезнут совсем, как лошади — или противоположное: в 2030 году всё будет как сейчас.</span></li>
+    </ol>
+    <p class="dissent">5 идей оказались слишком интересными, чтобы отбросить их — они стали пространством для прогнозов.</p>
+  </section>
+
+  <section>
+    <div class="eyebrow" style="--dot:#7a5cc4"><i></i><b>Раунд 1 · Прогнозы</b></div>
+    <p class="intro" style="margin-bottom:8px">Каждый игрок создал один независимый прогноз до формирования команд. Это сырой материал, из которого строятся продукты.</p>
+
+    <div class="teamblock t-alpha">
+      <span class="chip soft">Команда Альфа</span>
+      <div class="fgrid">
+        <article class="fcard">
+          <div class="fhead"><span class="tok-sm">MC</span><div><div class="fname">Mira Chen</div><div class="fmeta">системный футурист</div></div></div>
+          <p class="fbody">Страховщики начнут предлагать телематические скидки за прохождение периодической симуляторной ре-сертификации навыка перехвата управления. Из необязательного бонуса это постепенно превращается в рыночный стандарт: ре-сертифицированный водитель получает базовый тариф, остальные платят повышенный.</p>
+        </article>
+        <article class="fcard">
+          <div class="fhead"><span class="tok-sm">NH</span><div><div class="fname">Noor Haddad</div><div class="fmeta">сторонник конфиденциальности</div></div></div>
+          <p class="fbody">Данные салонной камеры и телематики станут предметом острого юридического конфликта: кто ими владеет и при каких условиях их можно передавать. Новая категория «телематика с обработкой на устройстве» позволит измерять качество перехвата локально, не отправляя сырьё наружу.</p>
+        </article>
+        <article class="fcard">
+          <div class="fhead"><span class="tok-sm">ML</span><div><div class="fname">Marcus Lee</div><div class="fmeta">прагматичный основатель</div></div></div>
+          <p class="fbody">Дилеры начнут включать в продажу L2+/L3 короткий курс takeover-готовности как часть онбординга и встраивать в экран машины микро-тренировки перехвата. Страховщик, первым давший скидку за пройденный курс, задаст стандарт канала и станет его владельцем.</p>
+        </article>
+      </div>
+    </div>
+
+    <div class="teamblock t-beta">
+      <span class="chip soft">Команда Бета</span>
+      <div class="fgrid">
+        <article class="fcard">
+          <div class="fhead"><span class="tok-sm">EW</span><div><div class="fname">Elias Ward</div><div class="fmeta">скептичный экономист</div></div></div>
+          <p class="fbody">Страховщики превратятся в де-факто регуляторов навыка вождения через механизм неблагоприятного отбора: чем точнее телематика измеряет риск перехвата, тем острее разрыв в тарифах. Это создаёт рыночное давление на сертификацию, которое работает быстрее законодательного мандата.</p>
+        </article>
+        <article class="fcard">
+          <div class="fhead"><span class="tok-sm">OB</span><div><div class="fname">Owen Brooks</div><div class="fmeta">планировщик устойчивости</div></div></div>
+          <p class="fbody">К 2029 году появится специальный «допуск к деградированному режиму»: симулятор воспроизводит отказ разметки, связи, заснеженные дороги и подтверждает, что водитель умеет принять управление именно в этих условиях. Климатическая уязвимость превращает навык в страхуемый риск с конкретной метрикой.</p>
+        </article>
+        <article class="fcard">
+          <div class="fhead"><span class="tok-sm">SP</span><div><div class="fname">Sofia Petrov</div><div class="fmeta">социолог сообществ</div></div></div>
+          <p class="fbody">Доверие к автопилоту распространяется не через рекламу, а через «острова доверия» — локальные сообщества, где опытные пользователи становятся наставниками для новичков. Платформы и страховщики, встроившиеся в эту реферальную механику, получат стоимость привлечения близкую к нулю и органичную частоту практики.</p>
+        </article>
+      </div>
+    </div>
+
+    <div class="teamblock t-gamma">
+      <span class="chip soft">Команда Гамма</span>
+      <div class="fgrid">
+        <article class="fcard">
+          <div class="fhead"><span class="tok-sm">RM</span><div><div class="fname">Rosa Martinez</div><div class="fmeta">оператор переднего края</div></div></div>
+          <p class="fbody">В экзамен по вождению появится обязательный модуль «надзор за ADAS и управляемый перехват»: страховые компании и таксопарки начнут требовать его раньше, чем государство успеет прописать в законе. Практическая отработка перехвата станет отдельной дисциплиной — так же как ранее выделились параллельная парковка и скоростная езда.</p>
+        </article>
+        <article class="fcard">
+          <div class="fhead"><span class="tok-sm">PR</span><div><div class="fname">Priya Raman</div><div class="fmeta">продуктовый стратег</div></div></div>
+          <p class="fbody">Страховщики станут де-факто сертификаторами надзора за ADAS: короткий курс ре-валидации плюс телематическая скидка. Первый успешный продукт выиграет не за счёт модели или симулятора, а за счёт правильной точки входа — дилерского канала или момента продления полиса.</p>
+        </article>
+        <article class="fcard">
+          <div class="fhead"><span class="tok-sm">LF</span><div><div class="fname">Lena Fischer</div><div class="fmeta">историк-скептик</div></div></div>
+          <p class="fbody">Постепенно вернётся расширенный испытательный период для молодых водителей — только теперь под новым техническим условием: телематическая проверка качества перехвата вместо накопления часов с инструктором. GDL пережил несколько волн технологических изменений; то, что остаётся неизменным, — надёжный способ прогнозировать регуляторную эволюцию.</p>
+        </article>
+      </div>
+    </div>
+
+    <div class="teamblock t-delta">
+      <span class="chip soft">Команда Дельта</span>
+      <div class="fgrid">
+        <article class="fcard">
+          <div class="fhead"><span class="tok-sm">JO</span><div><div class="fname">Jamie Okafor</div><div class="fmeta">сторонник доступности</div></div></div>
+          <p class="fbody">В правах появится отметка адаптивного управления, признающая нестандартные органы управления частью стандартного удостоверения. Это откроет мобильность для людей с ограниченными возможностями, не создавая отдельной категории: адаптивность становится обязательным полем стандарта, а не исключением из него.</p>
+        </article>
+        <article class="fcard">
+          <div class="fhead"><span class="tok-sm">AS</span><div><div class="fname">Amara Singh</div><div class="fmeta">аналитик госполитики</div></div></div>
+          <p class="fbody">В 3–4 юрисдикциях появится обязательная L3-отметка «допуск к надзору» — сначала как добровольный стимул страховщика, затем как регуляторный мандат. Страховой тариф работает как механизм распространения: норма фиксируется быстрее, чем успевает сформироваться законодательный процесс.</p>
+        </article>
+        <article class="fcard">
+          <div class="fhead"><span class="tok-sm">TN</span><div><div class="fname">Theo Nakamura</div><div class="fmeta">прикладной технолог</div></div></div>
+          <p class="fbody">Появится отдельная телематическая метрика качества перехвата — латентность реакции, корректность направления, время стабилизации — и она станет основой для L3-endorsement. Без стандартизованного события перехвата (Takeover Event Schema) данные несопоставимы между марками и страховщик не может тарифицировать их честно.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow" style="--dot:#df5338;--lc:#c0492f"><i></i><b>Раунд 2 · Разработка — четыре участника</b></div>
+    <h2 class="h2" style="max-width:22ch">Четыре продукта, каждый построен на пересечении двух прогнозов.</h2>
+    <p class="sectintro">Каждая команда отбросила один из трёх назначенных прогнозов и разработала продукт, который работает только при сочетании оставшихся двух.</p>
+
+    <article class="prod t-alpha">
+      <div class="prod-band"><i></i>Команда Альфа</div>
+      <div class="prod-body">
+        <div class="codename">Кодовое название</div>
+        <div class="pn">Допуск надзора</div>
+        <p class="lead">Большинство курсов вождения учат управлять машиной вручную, но не учат главному вопросу 2030 года: когда доверять автопилоту и что делать, когда он внезапно передаёт руль. «Допуск надзора» — это короткая аттестация именно этого навыка, которую заверяет наставник из твоего же сообщества и признаёт страховщик. Тренировочное сырьё остаётся внутри системы — наружу уходит только подписанный верифицируемый сертификат. Страховщик финансирует аттестацию, потому что один курс дешевле, чем оплачивать аварии при неудачном перехвате.</p>
+        <div class="cols">
+          <div>
+            <div class="mlabel">Для кого</div>
+            <p class="mtext">Водители с L2+/L3-автомобилями; таксопарки и каршеринговые операторы как первый корпоративный канал</p>
+          </div>
+          <div>
+            <div class="mlabel">Почему работает</div>
+            <p class="mtext">Реферальная механика сообщества (ставка Софии Петров) снижает стоимость привлечения до нуля; страховая скидка (ставка Прии Раман) даёт плательщика и обоснование ROI. Без первого привлечение дорого, без второго нет покупателя.</p>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="prod t-beta">
+      <div class="prod-band"><i></i>Команда Бета</div>
+      <div class="prod-body">
+        <div class="codename">Кодовое название</div>
+        <div class="pn">На подхвате</div>
+        <p class="lead">Страховщики несут остаточную ответственность за аварии при неудачном перехвате, но у них нет инструмента для измерения этого риска. «На подхвате» — это страховой рельс готовности к перехвату, поддерживаемый кругами взаимного наставничества по 8–15 человек. Компетентность измеряется по результату реакции — независимо от конфигурации органов управления — что впервые позволяет страховщику прибыльно андеррайтить водителей с адаптивным управлением. Тариф учитывает деградированные сценарии: гололёд, отказ разметки, перебои связи.</p>
+        <div class="cols">
+          <div>
+            <div class="mlabel">Для кого</div>
+            <p class="mtext">Страховщики в рынках с высокой телематикой; водители с адаптивным управлением и ограниченными возможностями, которым нынешние системы страхования отказывают</p>
+          </div>
+          <div>
+            <div class="mlabel">Почему работает</div>
+            <p class="mtext">Без неблагоприятного отбора по риску перехвата (ставка Элиаса Уорда) нет актуарного обоснования для дифференцирования тарифа. Без адаптивного управления как части стандарта (ставка Джейми Окафора) страховщик теряет весь этот рыночный сегмент. Оба условия нужны одновременно.</p>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="prod t-gamma">
+      <div class="prod-band"><i></i>Команда Гамма</div>
+      <div class="prod-body">
+        <div class="codename">Кодовое название</div>
+        <div class="pn">ReadyPass</div>
+        <p class="lead">Регуляторы и страховщики хотят доказательства, что водитель умеет перехватить управление у L3-автоматики, — но тотальный сбор видео из салона политически токсичен. ReadyPass решает это противоречие: периодическая бортовая проверка готовности идёт локально, а наружу выходит только криптографически подписанная «печать о годности» — «допуск свежий до даты X, уровень N». Регулятор получает доказательство; страховщик — основу для тарифа; водитель — скидку и законную отметку, не отдавая сырьё. «Печать» читается офлайн за один клик, как диагностическая карта.</p>
+        <div class="cols">
+          <div>
+            <div class="mlabel">Для кого</div>
+            <p class="mtext">Страховщики и регуляторы в юрисдикциях с готовой L3-рамкой (ЕС); автошколы, встраивающие ре-валидацию в продление прав</p>
+          </div>
+          <div>
+            <div class="mlabel">Почему работает</div>
+            <p class="mtext">Обязательность отметки (ставка Амары Сингх) политически проходима именно потому, что обработка идёт на устройстве и сырьё не покидает машину (ставка Нур Хаддад). Без обязательного мандата — добровольная фича; без локальной обработки — политически заблокированный продукт.</p>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="prod t-delta">
+      <div class="prod-band"><i></i>Команда Дельта</div>
+      <div class="prod-body">
+        <div class="codename">Кодовое название</div>
+        <div class="pn">Takeover Passport</div>
+        <p class="lead">Страховщик хочет сравнивать водителей разных марок, регулятор — единый стандарт допуска, а водитель с тремором — чтобы оценка учитывала его конкретную реакцию, а не усреднённый порог. Takeover Passport объединяет переносимый сертификат и открытый стандарт события перехвата (Takeover Event Schema): модальность сигнала и конфигурация органов управления — обязательные поля, а не опция. Оценка относительна: каждый водитель сравнивается с откалиброванной личной базой. Это делает адаптируемость частью стандарта — пожилой водитель и водитель с инвалидностью получают понятный сигнал и несколько дополнительных секунд.</p>
+        <div class="cols">
+          <div>
+            <div class="mlabel">Для кого</div>
+            <p class="mtext">OEM-производители и страховщики как совместные пилотёры открытой схемы; пожилые водители и водители с адаптивным управлением как первая когорта</p>
+          </div>
+          <div>
+            <div class="mlabel">Почему работает</div>
+            <p class="mtext">Регуляторный мандат (ставка Розы Мартинес) даёт легитимность и требует сопоставимости между марками; дилерский канал и страховая скидка (ставка Маркуса Ли) дают доставку и плательщика. Без открытой схемы данные несопоставимы; без дилера-страховщика у водителя нет мотивации пройти сертификацию добровольно.</p>
+          </div>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <section>
+    <div class="eyebrow" style="--dot:#cf871f"><i></i><b>Раунд 3 · Голосование — главное событие</b></div>
+    <h2 class="h2" style="max-width:18ch">И игроки выбрали…</h2>
+    <p class="sectintro">Когда питчи были готовы, каждый игрок тайно отдал два голоса — за продукты других команд, не своей. Всего 24 голоса — и неожиданная ничья.</p>
+
+    <div class="tieblock">
+      <div class="winbar" style="background:#e8f9f3;border-color:#1f9b78;box-shadow:9px 9px 0 #1f9b78">
+        <span class="rosette" style="border-color:#1f9b78">8<i>1-Е</i></span>
+        <div>
+          <div class="winlabel" style="color:#136e56">★ Победитель · 8 из 24 голосов</div>
+          <div class="winname" style="font-size:32px">ReadyPass</div>
+          <div class="winteam" style="color:#136e56">Команда Гамма</div>
+        </div>
+      </div>
+      <div class="winbar" style="background:#f0ecfc;border-color:#7a5cc4;box-shadow:9px 9px 0 #7a5cc4">
+        <span class="rosette" style="border-color:#7a5cc4">8<i>1-Е</i></span>
+        <div>
+          <div class="winlabel" style="color:#583ea0">★ Победитель · 8 из 24 голосов</div>
+          <div class="winname" style="font-size:32px">Takeover Passport</div>
+          <div class="winteam" style="color:#583ea0">Команда Дельта</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tally">
+      <div class="tally-h"><b>Итоговый счёт</b><span>12 игроков · 2 голоса каждый · 24 всего</span></div>
+      <div class="trow t-gamma">
+        <div class="tinfo">
+          <div class="top"><i></i><b>ReadyPass</b><span class="star">★</span></div>
+          <div class="tm">Команда Гамма</div>
+        </div>
+        <div class="bar"><i style="width:100%"></i></div>
+        <div class="tv"><b>8</b><span> голосов</span></div>
+      </div>
+      <div class="trow t-delta">
+        <div class="tinfo">
+          <div class="top"><i></i><b>Takeover Passport</b><span class="star">★</span></div>
+          <div class="tm">Команда Дельта</div>
+        </div>
+        <div class="bar"><i style="width:100%"></i></div>
+        <div class="tv"><b>8</b><span> голосов</span></div>
+      </div>
+      <div class="trow t-beta">
+        <div class="tinfo">
+          <div class="top"><i></i><b>На подхвате</b></div>
+          <div class="tm">Команда Бета</div>
+        </div>
+        <div class="bar"><i style="width:75%"></i></div>
+        <div class="tv"><b>6</b><span> голосов</span></div>
+      </div>
+      <div class="trow t-alpha">
+        <div class="tinfo">
+          <div class="top"><i></i><b>Допуск надзора</b></div>
+          <div class="tm">Команда Альфа</div>
+        </div>
+        <div class="bar"><i style="width:25%"></i></div>
+        <div class="tv"><b>2</b><span> голосов</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section style="margin-bottom:40px">
+    <div class="eyebrow" style="--dot:#2a2118"><i></i><b>Финальный свисток · Вердикт</b></div>
+    <p class="vnote">Необязательный комментарий — это взгляд фасилитатора, а не официальный вердикт игроков.</p>
+    <div class="verdict">
+      <p>Все четыре продукта обнаружили один и тот же белый прямоугольник на карте регулирования: навык надзора за автоматикой и управляемого перехвата не существует в действующем законодательстве ни в одной юрисдикции как отдельная категория. Экзамен проверяет ручное вождение; страховая телематика измеряет резкость манёвров; никто не измеряет главное — умеет ли водитель вовремя и корректно принять руль у L3-системы. Это согласованный вывод сессии, выработанный двенадцатью игроками независимо.</p>
+      <p>Ничья между ReadyPass и Takeover Passport показательна. Оба продукта решают одну задачу — «как доказать компетентность перехвата» — но с разными архитектурными ставками. ReadyPass делает privacy условием политической проходимости: доказательство можно требовать обязательно именно потому, что сырьё остаётся на устройстве. Takeover Passport делает открытый стандарт условием переносимости: сертификат ценен только тогда, когда его читает любой страховщик и любой OEM. Это не дублирование — это два разных входа в один рынок.</p>
+      <p>Самый недооценённый вывод сессии принадлежит команде Бета. «На подхвате» набрала 6 голосов, но содержит элемент, который остальные три продукта проигнорировали: социальная регулярность практики. Страховая скидка создаёт стимул пройти ре-валидацию один раз; наставнический круг создаёт условие для того, чтобы навык поддерживался между проверками. Это разные вещи. Ни один из победителей не отвечает на вопрос «как водитель будет практиковаться между сертификациями?» — и это вопрос для следующей сессии.</p>
+    </div>
+  </section>
+
+  <footer>
+    <p>Сессия 20260618T022233Z · 18 июня 2026 года · Создано Игрой Будущего</p>
+  </footer>
+
+</div>
+</body>
+</html>
